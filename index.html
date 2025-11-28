@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>나에게 맞는 영어 학습 앱 찾기 - Modern Edition</title>
+  <title>나에게 맞는 영어 학습 앱 찾기 - Two Step Edition</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
-    
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -21,19 +21,20 @@
       line-height: 1.6;
     }
 
-    /* 서브틀한 배경 그라디언트 */
     body::before {
       content: '';
       position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
+      inset: 0;
+      background:
         radial-gradient(circle at 20% 20%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
         radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.08) 0%, transparent 50%);
       pointer-events: none;
       z-index: 0;
+    }
+
+    .page-wrap {
+      position: relative;
+      z-index: 1;
     }
 
     header {
@@ -69,12 +70,368 @@
       background: #1e293b;
       border-radius: 16px;
       padding: 32px;
-      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      box-shadow:
+        0 4px 6px -1px rgba(0, 0, 0, 0.1),
+        0 2px 4px -1px rgba(0, 0, 0, 0.06);
       border: 1px solid #334155;
     }
 
-    .wizard {
-      margin: 0 auto 40px;
+
+    .result-note-box {
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: 12px;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+      background: rgba(15, 23, 42, 0.85);
+      color: #e5e7eb;
+      font-size: 13px;
+      line-height: 1.7;
+    }
+
+    .result-note-box h3 {
+      font-size: 14px;
+      margin-bottom: 6px;
+      color: #f9fafb;
+    }
+
+    .result-note-box strong {
+      color: #7dd3fc;
+      font-weight: 600;
+    }
+
+    /* ----- 모바일 반응형 보완 ----- */
+    @media (max-width: 768px) {
+      main {
+        padding: 0 14px 40px;
+      }
+
+      .container {
+        padding: 20px 16px;
+        border-radius: 14px;
+      }
+
+      .intro-grid {
+        grid-template-columns: 1fr;
+        gap: 16px;
+      }
+
+      .intro-main-title {
+        font-size: 20px;
+      }
+
+      .intro-sub-title {
+        font-size: 13px;
+      }
+
+      .step-card {
+        padding: 14px 12px;
+      }
+
+      .question-title {
+        font-size: 15px;
+      }
+
+      .choice-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 10px;
+      }
+
+      .choice-pill {
+        padding: 8px 10px;
+        font-size: 13px;
+      }
+
+      .results-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .app-card {
+        padding: 18px 16px;
+      }
+
+      .app-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+      }
+
+      .app-name {
+        font-size: 17px;
+      }
+
+      .score-pill {
+      margin-top: 6px;
+      font-size: 13px;
+      color: #e0f2fe;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+      .app-links {
+        flex-direction: column;
+      }
+
+      .app-link-btn {
+        width: 100%;
+      }
+
+      #resultsHeader h2 {
+        font-size: 20px;
+      }
+
+      #resultsHeader p {
+        font-size: 13px;
+      }
+    }
+
+
+    /* ----- STEP 1 : INTRO ----- */
+
+    #step1-section {
+      margin-bottom: 32px;
+    }
+
+    .intro-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+      gap: 24px;
+      align-items: start;
+    }
+
+    .intro-main-title {
+      font-size: 26px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: #f9fafb;
+    }
+
+    .intro-sub {
+      font-size: 15px;
+      color: #94a3b8;
+      margin-bottom: 18px;
+    }
+
+    .intro-bullets {
+      list-style: none;
+      margin-bottom: 20px;
+      font-size: 14px;
+      color: #cbd5e1;
+    }
+
+    .intro-bullets li {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+    }
+
+    .intro-bullets li::before {
+      content: "•";
+      color: #60a5fa;
+      margin-top: 2px;
+    }
+
+    .intro-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 16px;
+    }
+
+    .intro-badge {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: #0f172a;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+    }
+
+    .intro-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    .intro-note {
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .btn-primary {
+      padding: 12px 24px;
+      border-radius: 999px;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: #ffffff;
+      box-shadow: 0 8px 20px rgba(59, 130, 246, 0.35);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: all 0.2s ease;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 10px 24px rgba(59, 130, 246, 0.45);
+    }
+
+    .btn-secondary-ghost {
+      padding: 12px 20px;
+      border-radius: 999px;
+      font-size: 14px;
+      border: 2px solid #00d4aa;
+      background: transparent;
+      color: #00d4aa;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.3s ease;
+      font-weight: 600;
+    }
+
+    .btn-secondary-ghost:hover {
+      background: #00d4aa;
+      color: #0f172a;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 212, 170, 0.3);
+    }
+
+    .intro-right-card {
+      background: #020617;
+      border-radius: 14px;
+      padding: 18px 20px;
+      border: 1px solid #334155;
+      font-size: 13px;
+      color: #cbd5e1;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: slideInUp 0.6s ease forwards 0.3s;
+    }
+    
+    @keyframes slideInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+
+    .intro-right-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 10px;
+      gap: 6px;
+    }
+
+    .intro-pill {
+      padding: 3px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: #0f172a;
+      color: #e5e7eb;
+      border: 1px solid #334155;
+    }
+
+    .intro-steps {
+      list-style: none;
+      margin-bottom: 10px;
+    }
+
+    .intro-steps li {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      align-items: flex-start;
+    }
+
+    .intro-step-index {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: #1d4ed8;
+      color: #f9fafb;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .intro-app-chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 6px;
+    }
+
+    .intro-app-chip {
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: #020617;
+      border: 1px solid #1e293b;
+      font-size: 10px;
+      color: #e5e7eb;
+    }
+
+    .intro-how {
+      margin-top: 16px;
+      font-size: 12px;
+      color: #cbd5e1;
+      border-top: 1px solid #334155;
+      padding-top: 16px;
+      display: none;
+      overflow: visible;
+    }
+    .intro-how.show {
+      display: block;
+      opacity: 1;
+    }
+
+    button.nav-btn {
+      padding: 12px 28px;
+      border-radius: 8px;
+      border: none;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      min-width: 100px;
+    }
+
+    button.nav-btn.secondary {
+      background: #334155;
+      color: #e2e8f0;
+      border: 1.5px solid #475569;
+    }
+
+    button.nav-btn.secondary:hover {
+      background: #475569;
+    }
+
+    button.nav-btn.primary {
+      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+    }
+
+    button.nav-btn.primary:hover {
+      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
+      transform: translateY(-1px);
+    }
+
+    /* ----- STEP 2 ----- */
+
+    #step2-wrap {
+      display: none;
     }
 
     .step-indicator {
@@ -112,6 +469,10 @@
       transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    .wizard {
+      margin: 0 auto 40px;
+    }
+
     .step {
       display: none;
     }
@@ -122,14 +483,8 @@
     }
 
     @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(10px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .step-title {
@@ -193,39 +548,8 @@
       gap: 12px;
     }
 
-    button.nav-btn {
-      padding: 12px 28px;
-      border-radius: 8px;
-      border: none;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s ease;
-      min-width: 100px;
-    }
+    /* ----- 결과 섹션 ----- */
 
-    button.nav-btn.secondary {
-      background: #334155;
-      color: #e2e8f0;
-      border: 1.5px solid #475569;
-    }
-
-    button.nav-btn.secondary:hover {
-      background: #475569;
-    }
-
-    button.nav-btn.primary {
-      background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
-      color: #ffffff;
-      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
-    }
-
-    button.nav-btn.primary:hover {
-      box-shadow: 0 6px 16px rgba(59, 130, 246, 0.4);
-      transform: translateY(-1px);
-    }
-
-    /* 결과 섹션 */
     #resultsSection {
       display: none;
       animation: fadeIn 0.5s ease;
@@ -255,14 +579,63 @@
     }
 
     .selection-summary {
-      background: #0f172a;
-      border-radius: 12px;
-      padding: 20px 24px;
       margin-bottom: 40px;
-      border: 1px solid #334155;
       font-size: 14px;
       line-height: 1.8;
       color: #cbd5e1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .selection-summary .summary-box {
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-bottom: 10px;
+      background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.28), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(96, 165, 250, 0.85);
+      color: #e5e7eb;
+    }
+
+    .selection-summary .ai-summary-box {
+      border-radius: 10px;
+      padding: 12px 14px;
+      background: radial-gradient(circle at top left, rgba(34, 197, 94, 0.23), rgba(15, 23, 42, 0.98));
+      border: 1px solid rgba(74, 222, 128, 0.85);
+    }
+
+    .selection-summary .ai-summary-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #bbf7d0;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .selection-summary .ai-summary-text {
+      font-size: 14px;
+      line-height: 1.8;
+      color: #ecfdf5;
+    }
+
+
+    .selection-summary .summary-separator {
+      border: 0;
+      border-top: 1px solid rgba(139, 92, 246, 0.8); /* 퍼플 라인 */
+      margin: 12px 0 10px;
+    }
+    .selection-summary .ai-label {
+      display: block;
+      font-weight: 600;
+      color: #34c759; /* iOS 그린 포인트 */
+      margin-bottom: 6px;
+    }
+
+    .selection-summary .selection-reason {
+      margin-top: 6px;
+      display: block;
+      color: #e2e8f0;
     }
 
     .results-block {
@@ -286,12 +659,13 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
       gap: 20px;
+      margin-top: 20px; /* TOP 배지를 위한 상단 여백 */
     }
 
     .app-card {
       background: #1e293b;
       border-radius: 12px;
-      padding: 24px;
+      padding: 24px; /* 패딩 규칙화 */
       border: 1px solid #334155;
       transition: all 0.3s ease;
       position: relative;
@@ -309,21 +683,22 @@
       border: 1.5px solid #3b82f6;
     }
 
-    /* TOP 배지 - 카드 위쪽에 위치 */
+    /* TOP 추천 배지 - 카드 바깥쪽 상단에 부착 */
     .app-card.highlight::before {
-      content: '⭐ TOP';
+      content: '⭐ TOP 추천';
       position: absolute;
       top: -12px;
-      right: 20px;
+      right: 14px;
       background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-      color: #1e293b;
-      padding: 4px 12px;
-      border-radius: 6px;
-      font-size: 11px;
+      color: #1f2933;
+      padding: 5px 12px;
+      border-radius: 999px;
+      font-size: 12px;
       font-weight: 700;
-      letter-spacing: 0.5px;
-      box-shadow: 0 4px 12px rgba(251, 191, 36, 0.4);
+      letter-spacing: 0.3px;
+      box-shadow: 0 4px 10px rgba(251, 191, 36, 0.35);
       z-index: 10;
+      white-space: nowrap;
     }
 
     .app-header {
@@ -342,20 +717,21 @@
     }
 
     .app-badge {
-      padding: 4px 12px;
-      border-radius: 6px;
+      padding: 0 4px;
+      border-radius: 0;
       font-size: 11px;
       font-weight: 600;
-      background: #334155;
-      color: #cbd5e1;
+      background: transparent;
+      color: #fbbf24;
       white-space: nowrap;
     }
 
     .app-desc {
-      font-size: 14px;
-      color: #cbd5e1;
-      line-height: 1.6;
-      margin-bottom: 12px;
+      font-size: 15px;
+      color: #f9fafb;
+      line-height: 1.75;
+      margin-bottom: 14px;
+      font-weight: 500;
     }
 
     .app-price {
@@ -373,18 +749,34 @@
     }
 
     .app-tag {
-      padding: 4px 10px;
+      padding: 2px 8px;
       border-radius: 6px;
-      background: #0f172a;
       font-size: 11px;
-      color: #94a3b8;
-      border: 1px solid #334155;
+      font-weight: 600;
+      background: transparent;
+      color: #93c5fd;
+      border: 1px solid rgba(147, 197, 253, 0.35);
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .app-tag:hover {
+      color: #bfdbfe;
+      border-color: rgba(191, 219, 254, 0.5);
     }
 
     .score-pill {
-      font-size: 12px;
-      color: #64748b;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
       margin-top: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.2), 0 8px 16px rgba(15, 23, 42, 0.5);
+      color: #e0f2fe;
+      font-size: 13px;
+      font-weight: 600;
     }
 
     .app-links {
@@ -424,6 +816,31 @@
       box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
     }
 
+    .app-link-btn.store {
+      background: linear-gradient(135deg, #0ea5e9, #22c55e);
+      color: #0f172a;
+      border-color: rgba(248, 250, 252, 0.9);
+      font-weight: 700;
+    }
+
+    .app-link-btn.store:hover {
+      box-shadow: 0 4px 12px rgba(34, 197, 94, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .app-link-btn.disabled {
+      opacity: 0.6;
+      cursor: default;
+      background: #1f2937;
+      border-color: #334155;
+      color: #9ca3af;
+    }
+
+    .app-link-btn.disabled:hover {
+      transform: none;
+      box-shadow: none;
+    }
+
     .no-result {
       text-align: center;
       padding: 40px 20px;
@@ -431,11 +848,18 @@
       color: #94a3b8;
     }
 
+    .link-pending {
+      margin-top: 10px;
+      font-size: 12px;
+      color: #facc15;
+    }
+
     .tiny-note {
       font-size: 13px;
       color: #64748b;
       text-align: center;
-      margin-top: 32px;
+      margin-top: 16px;
+      margin-bottom: 20px;
       line-height: 1.6;
     }
 
@@ -461,37 +885,25 @@
       transform: translateY(-1px);
     }
 
-    /* 반응형 */
+    @media (max-width: 900px) {
+      .intro-grid { grid-template-columns: 1fr; }
+    }
+
     @media (max-width: 768px) {
-      header h1 {
-        font-size: 28px;
-      }
-
-      header p {
-        font-size: 14px;
-      }
-
-      .container {
-        padding: 24px;
-      }
-
-      .step-title {
-        font-size: 20px;
-      }
-
+      header h1 { font-size: 28px; }
+      header p { font-size: 14px; }
+      .container { padding: 24px; }
+      .step-title { font-size: 20px; }
       .option {
         font-size: 13px;
         padding: 9px 16px;
       }
-
       .results-grid {
         grid-template-columns: 1fr;
       }
-
       .app-links {
         flex-direction: column;
       }
-
       .app-link-btn {
         width: 100%;
       }
@@ -501,976 +913,3129 @@
       header {
         padding: 32px 16px 24px;
       }
-
       header h1 {
         font-size: 24px;
       }
-
       .container {
         padding: 20px;
         border-radius: 12px;
       }
-
       .step-title {
         font-size: 18px;
       }
-
       .nav-buttons {
         flex-direction: column-reverse;
       }
-
       .nav-buttons .left,
       .nav-buttons .right {
         width: 100%;
         justify-content: stretch;
       }
-
       button.nav-btn {
         width: 100%;
       }
     }
-  </style>
+  
+.share-block {
+      margin-top: 24px;
+      padding: 16px 18px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, rgba(30, 64, 175, 0.25), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(129, 140, 248, 0.6);
+      backdrop-filter: blur(14px);
+    }
+.share-block h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+.share-block p {
+  font-size: 0.875rem;
+  color: #e5e7eb;
+  margin-bottom: 0.75rem;
+}
+.share-buttons {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.share-buttons button {
+  flex: 1;
+  min-width: 200px;
+  padding: 16px 24px;
+  font-size: 15px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.share-buttons .btn-primary {
+  background: #4a5fdc;
+  color: white;
+}
+.share-buttons .btn-primary:hover {
+  background: #3d4fc7;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(74, 95, 220, 0.4);
+}
+.share-buttons .btn-sub {
+  background: #00d4aa;
+  color: white;
+}
+.share-buttons .btn-sub:hover {
+  background: #00bd98;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 212, 170, 0.4);
+}
+
+
+    .app-reasons {
+      margin-top: 10px;
+      padding-left: 1.25rem;
+      font-size: 13.5px;
+      color: #e5e7eb;
+      list-style: disc;
+    }
+
+    .app-reasons li + li {
+      margin-top: 2px;
+    }
+
+    .app-tip {
+      margin-top: 8px;
+      font-size: 12.5px;
+      color: #cbd5e1;
+      font-style: italic;
+    }
+
+    .score-pill span.score-grade {
+      margin-left: 6px;
+      font-size: 11px;
+      color: #7dd3fc;
+      font-weight: 600;
+      white-space: nowrap;
+    }
+
+  
+      /* Enhanced text visibility overrides */
+      #step1-wrap header p,
+      .intro-sub,
+      .tiny-note,
+      .results-block > p,
+      .section-lead,
+      .wizard .question-help {
+        color: #e2e8f0 !important;
+        text-shadow: 0 0 6px rgba(0,0,0,0.25);
+      }
+
+      /* Extra visibility for key helper texts */
+      #step2-wrap header p,
+      #resultsHeader p,
+      .intro-note,
+      .step-desc {
+        color: #e5e7eb !important;
+        font-weight: 500;
+        text-shadow: 0 0 6px rgba(0,0,0,0.25);
+      }
+
+    .combined-summary-box {
+      border-radius: 12px;
+      padding: 18px 20px;
+      background: rgba(15,23,42,0.6);
+      border: 1px solid rgba(139,92,246,0.4);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    .combined-separator {
+      border: 0;
+      border-top: 1px solid rgba(139,92,246,0.5);
+      margin: 6px 0;
+    }
+    .summary-text {
+      color: #e2e8f0;
+      line-height: 1.7;
+    }
+</style>
 </head>
 <body>
-  <header>
-    <h1>나에게 맞는 영어 학습 앱 찾기</h1>
-    <p>10가지 질문으로 당신에게 완벽한 영어 학습 앱을 추천해드립니다</p>
-  </header>
+<div class="page-wrap">
+  <!-- STEP 1 : INTRO -->
+  <div id="step1-wrap">
+    <header>
+      <h1>🚀 영어 앱 추천</h1>
+      <p>AI가 <strong>60개 영어 앱</strong> 중 지금 당신에게 꼭 맞는 <strong style="color: #00d4aa;">TOP 3</strong>를 찾아드립니다</p>
+    </header>
 
-  <main>
-    <section class="wizard container" id="wizard">
-      <div class="step-indicator">
-        <span id="stepText">Step 1 / 10</span>
-        <div class="progress-bar">
-          <div class="progress-fill" id="progressFill"></div>
-        </div>
-      </div>
+    <main>
+      <section id="step1-section" class="container">
+        <div class="intro-grid">
+          <div>
+            <h2 class="intro-main-title">
+              듀오링고, 토익·오픽, 어린이 영어까지<br>지금 나에게 맞는 앱만 골라볼까요?
+            </h2>
+            <p class="intro-sub">
+              10가지 질문으로 당신의 목표·레벨·예산을 분석해<br>
+              지금의 당신에게 최적인 앱 조합을 추천합니다
+            </p>
+            <ul class="intro-bullets" id="introBullets" style="display: none;">
+              <li>✨ <strong>10가지 질문</strong></li>
+              <li>🤖 <strong>AI 매칭</strong>으로 60개 앱 중 최적 조합 추천</li>
+              <li>🎯 <strong>TOP 3 + 추가 후보</strong></li>
+            </ul>
+            <div class="intro-badges" id="introBadges" style="display: none;">
+              <span class="intro-badge">💬 회화·비즈니스</span>
+              <span class="intro-badge">📝 TOEIC·TOEFL·IELTS</span>
+              <span class="intro-badge">📚 기초·어휘·발음</span>
+              <span class="intro-badge">👶 키즈</span>
+            </div>
+            <div class="intro-cta-row">
+              <button class="btn-primary" type="button" onclick="goStep2()">
+                🚀 지금 바로 시작하기
+              </button>
+              <button class="btn-secondary-ghost" id="toggleHowBtn" type="button">
+                <span id="toggleHowText">🔍 추천 방식 보기</span>
+              </button>
+            </div>
+            <div class="intro-note">
+              ⚡ 무료 · 로그인 불필요 · 10초 완료
+            </div>
+          </div>
 
-      <!-- Step 1: 목적 -->
-      <div class="step active" data-step="1">
-        <h2 class="step-title">영어를 공부하는 주된 목적은 무엇인가요?</h2>
-        <p class="step-desc">해당되는 항목을 모두 선택해 주세요. (복수 선택 가능)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="goal" data-value="conversation" data-multi="true">일상 회화</button>
-          <button type="button" class="option" data-group="goal" data-value="travel" data-multi="true">여행 영어</button>
-          <button type="button" class="option" data-group="goal" data-value="business" data-multi="true">비즈니스/업무 영어</button>
-          <button type="button" class="option" data-group="goal" data-value="pronunciation" data-multi="true">발음·스피킹 향상</button>
-          <button type="button" class="option" data-group="goal" data-value="basic" data-multi="true">기초 문법·어휘 다지기</button>
-          <button type="button" class="option" data-group="goal" data-value="media" data-multi="true">영어 뉴스·영상 이해</button>
+          <aside class="intro-right-card" >
+            <div class="intro-right-header">
+              <div style="font-size:13px;font-weight:600;color:#e5e7eb;">추천 흐름 미리 보기</div>
+              <span class="intro-pill">Step 1 → Step 2</span>
+            </div>
+            <ul class="intro-steps">
+              <li>
+                <span class="intro-step-index">1</span>
+                <div>학습 목적, 준비 중인 시험, 현재 수준, 예산, 선호 학습 스타일 등을 <strong>10개 문항으로 선택</strong>합니다.</div>
+              </li>
+              <li>
+                <span class="intro-step-index">2</span>
+                <div>각 질문의 선택지들을 <strong>태그로 변환</strong>하고, 앱 DB에 저장된 태그와 비교하여 <strong>적합도를 점수화</strong>합니다.</div>
+              </li>
+              <li>
+                <span class="intro-step-index">3</span>
+                <div>당신에게 가장 잘 맞는 <strong style="color:#00d4aa;">TOP 3 앱</strong>과 그 외 후보 앱을 <strong>적합도 순으로 보여드립니다</strong>.</div>
+              </li>
+            </ul>
+            
+            <div id="step1-how" class="intro-how">
+              <div style="font-size:12px;font-weight:600;color:#e5e7eb;margin-bottom:8px;">How it works</div>
+              <div style="font-size:11px;color:#cbd5e1;line-height:1.6;">
+                각 질문의 선택지는 내부적으로 <strong style="color:#00d4aa;">태그로 변환</strong>되고, 앱 DB에 저장된 태그(목적, 수준, 스타일, 예산, 시간, 어린이용 여부 등)와 비교해 <strong>앱별 적합도를 계산</strong>합니다.
+              </div>
+              
+              <div style="font-size:10px;color:#94a3b8;margin:10px 0 6px 0;">예시로 추천될 수 있는 앱들</div>
+              <div class="intro-app-chips">
+                <span class="intro-app-chip">Duolingo · 입문자용 게임형 학습</span>
+                <span class="intro-app-chip">Speak · AI 스피킹 교정</span>
+                <span class="intro-app-chip">Santa TOEIC · 시험 점수 향상</span>
+                <span class="intro-app-chip">Lingokids · 어린이 영어</span>
+              </div>
+            </div>
+          </aside>
         </div>
-        <div class="nav-buttons">
-          <div class="left"></div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
+      </section>
+    </main>
+  </div>
+
+  <!-- STEP 2 : 마법사 + 결과 -->
+  <div id="step2-wrap">
+    <header>
+      <h1>나에게 맞는 영어 학습 앱 찾기</h1>
+      <p>10가지 질문으로 당신에게 완벽한 영어 학습 앱을 추천해드립니다</p>
+    </header>
+
+    <main>
+      <section class="wizard container" id="wizard">
+        <div class="step-indicator">
+          <span id="stepText">Step 1 / 10</span>
+          <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 2: 시험 종류 -->
-      <div class="step" data-step="2">
-        <h2 class="step-title">준비하는 시험이 있나요?</h2>
-        <p class="step-desc">해당되는 시험을 모두 선택해 주세요. 없으면 '시험 대비 없음'을 선택하세요. (복수 선택 가능)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="exam" data-value="none" data-multi="true">시험 대비 없음</button>
-          <button type="button" class="option" data-group="exam" data-value="exam-toeic" data-multi="true">토익 (TOEIC)</button>
-          <button type="button" class="option" data-group="exam" data-value="exam-opic" data-multi="true">토익스피킹/OPIc</button>
-          <button type="button" class="option" data-group="exam" data-value="exam-toefl" data-multi="true">토플 (TOEFL)</button>
-          <button type="button" class="option" data-group="exam" data-value="exam-ielts" data-multi="true">아이엘츠 (IELTS)</button>
-          <button type="button" class="option" data-group="exam" data-value="exam-teps" data-multi="true">텝스 (TEPS)</button>
-          <button type="button" class="option" data-group="exam" data-value="exam-others" data-multi="true">유학/입시 시험 (SAT/GRE 등)</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
-          </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 3: 수준 -->
-      <div class="step" data-step="3">
-        <h2 class="step-title">현재 영어 실력은 어느 정도인가요?</h2>
-        <p class="step-desc">가장 가깝다고 느끼는 단계를 하나 선택해주세요. (단일 선택)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="level" data-value="beginner" data-multi="false">완전 초보</button>
-          <button type="button" class="option" data-group="level" data-value="low-intermediate" data-multi="false">초중급 (쉬운 대화 가능)</button>
-          <button type="button" class="option" data-group="level" data-value="intermediate" data-multi="false">중급 (뉴스·영상 어느 정도 이해)</button>
-          <button type="button" class="option" data-group="level" data-value="upper-intermediate" data-multi="false">중고급 (업무 이메일 작성 가능)</button>
-          <button type="button" class="option" data-group="level" data-value="advanced" data-multi="false">고급 (대부분 상황에서 자유로운 대화)</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
-          </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
+        <!-- Step 1: 목적 -->
+        <div class="step active" data-step="1">
+          <h2 class="step-title">영어를 공부하는 주된 목적은 무엇인가요?</h2>
+          <p class="step-desc">해당되는 항목을 모두 선택해 주세요. (복수 선택 가능)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="goal" data-value="conversation" data-multi="true">일상 회화</button>
+            <button type="button" class="option" data-group="goal" data-value="travel" data-multi="true">여행 영어</button>
+            <button type="button" class="option" data-group="goal" data-value="business" data-multi="true">비즈니스/업무 영어</button>
+            <button type="button" class="option" data-group="goal" data-value="pronunciation" data-multi="true">발음·스피킹 향상</button>
+            <button type="button" class="option" data-group="goal" data-value="basic" data-multi="true">기초 문법·어휘 다지기</button>
+            <button type="button" class="option" data-group="goal" data-value="media" data-multi="true">영어 뉴스·영상 이해</button>
+            <button type="button" class="option" data-group="goal" data-value="kids" data-multi="true">어린이 영어</button>
+          
+            <button type="button" class="option" data-group="goal" data-value="basic" data-multi="true">단어 암기 위주 공부</button>
+            <button type="button" class="option" data-group="goal" data-value="media" data-multi="true">영상·뉴스 몰입형 학습</button>
+            <button type="button" class="option" data-group="goal" data-value="conversation" data-multi="true">튜터와 회화 연습 중심</button>
+</div>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary" type="button" onclick="goStep1()">← 서비스 소개로 돌아가기</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 4: 스타일 -->
-      <div class="step" data-step="4">
-        <h2 class="step-title">어떤 학습 방식이 더 잘 맞을 것 같나요?</h2>
-        <p class="step-desc">편하게 느껴지는 방식을 모두 골라주세요. (복수 선택 가능)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="style" data-value="game" data-multi="true">게임처럼 가볍게</button>
-          <button type="button" class="option" data-group="style" data-value="video" data-multi="true">영상/콘텐츠 보면서</button>
-          <button type="button" class="option" data-group="style" data-value="tutor" data-multi="true">1:1 원어민/튜터</button>
-          <button type="button" class="option" data-group="style" data-value="speaking" data-multi="true">스피킹/발음 위주</button>
-          <button type="button" class="option" data-group="style" data-value="vocab-grammar" data-multi="true">단어·문법 문제풀이</button>
-          <button type="button" class="option" data-group="style" data-value="exchange" data-multi="true">원어민과 채팅/통화</button>
-          <button type="button" class="option" data-group="style" data-value="shadowing" data-multi="true">쉐도잉 중심</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
+        <!-- Step 2: 시험 종류 -->
+        <div class="step" data-step="2">
+          <h2 class="step-title">준비하는 시험이 있나요?</h2>
+          <p class="step-desc">해당되는 시험을 모두 선택해 주세요. 없으면 '시험 대비 없음'을 선택하세요. (복수 선택 가능)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="exam" data-value="none" data-multi="true">시험 대비 없음</button>
+            <button type="button" class="option" data-group="exam" data-value="exam-toeic" data-multi="true">토익 (TOEIC)</button>
+            <button type="button" class="option" data-group="exam" data-value="exam-opic" data-multi="true">토익스피킹/OPIc</button>
+            <button type="button" class="option" data-group="exam" data-value="exam-toefl" data-multi="true">토플 (TOEFL)</button>
+            <button type="button" class="option" data-group="exam" data-value="exam-ielts" data-multi="true">아이엘츠 (IELTS)</button>
+            <button type="button" class="option" data-group="exam" data-value="exam-teps" data-multi="true">텝스 (TEPS)</button>
+            <button type="button" class="option" data-group="exam" data-value="exam-others" data-multi="true">유학/입시 시험 (SAT/GRE 등)</button>
           </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 5: 예산 -->
-      <div class="step" data-step="5">
-        <h2 class="step-title">한 달에 영어 공부에 쓸 수 있는 예산은 어느 정도인가요?</h2>
-        <p class="step-desc">대략적인 감으로 선택해도 괜찮습니다. (단일 선택)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="budget" data-value="free" data-multi="false">무료만 쓰고 싶음</button>
-          <button type="button" class="option" data-group="budget" data-value="under-10k" data-multi="false">월 1만 원 이하</button>
-          <button type="button" class="option" data-group="budget" data-value="10-30k" data-multi="false">월 1만~3만 원</button>
-          <button type="button" class="option" data-group="budget" data-value="30-70k" data-multi="false">월 3만~7만 원</button>
-          <button type="button" class="option" data-group="budget" data-value="70k-plus" data-multi="false">월 7만 원 이상도 괜찮음</button>
-          <button type="button" class="option" data-group="budget" data-value="any" data-multi="false">예산 상관 없음</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
-          </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 6: 시간 -->
-      <div class="step" data-step="6">
-        <h2 class="step-title">하루에 영어 공부에 투자할 수 있는 시간은 어느 정도인가요?</h2>
-        <p class="step-desc">현실적으로 가능한 시간을 골라주세요. (단일 선택)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="time" data-value="micro" data-multi="false">5~10분</button>
-          <button type="button" class="option" data-group="time" data-value="short" data-multi="false">10~20분</button>
-          <button type="button" class="option" data-group="time" data-value="medium" data-multi="false">30분~1시간</button>
-          <button type="button" class="option" data-group="time" data-value="long" data-multi="false">1~2시간</button>
-          <button type="button" class="option" data-group="time" data-value="intense" data-multi="false">2시간 이상</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
+        <!-- Step 3: 수준 -->
+        <div class="step" data-step="3">
+          <h2 class="step-title">현재 영어 실력은 어느 정도인가요?</h2>
+          <p class="step-desc">가장 가깝다고 느끼는 단계를 하나 선택해주세요. (단일 선택)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="level" data-value="beginner" data-multi="false">완전 초보</button>
+            <button type="button" class="option" data-group="level" data-value="low-intermediate" data-multi="false">초중급 (쉬운 대화 가능)</button>
+            <button type="button" class="option" data-group="level" data-value="intermediate" data-multi="false">중급 (뉴스·영상 어느 정도 이해)</button>
+            <button type="button" class="option" data-group="level" data-value="upper-intermediate" data-multi="false">중고급 (업무 이메일 작성 가능)</button>
+            <button type="button" class="option" data-group="level" data-value="advanced" data-multi="false">고급 (대부분 상황에서 자유로운 대화)</button>
           </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 7: 성향 -->
-      <div class="step" data-step="7">
-        <h2 class="step-title">학습 성향은 어떤 편인가요?</h2>
-        <p class="step-desc">가까운 항목을 선택해 주세요. (복수 선택 가능)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="motivation" data-value="self-paced" data-multi="true">혼자서도 꾸준히 하는 편</button>
-          <button type="button" class="option" data-group="motivation" data-value="need-guidance" data-multi="true">강사/앱이 끌어줘야 함</button>
-          <button type="button" class="option" data-group="motivation" data-value="need-fun" data-multi="true">재미 없으면 빨리 질림</button>
-          <button type="button" class="option" data-group="motivation" data-value="need-fast-result" data-multi="true">단기간 성과가 중요</button>
-          <button type="button" class="option" data-group="motivation" data-value="exam-focused" data-multi="true">실전 문제 위주가 좋음</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
-          </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 8: 말하기 두려움 -->
-      <div class="step" data-step="8">
-        <h2 class="step-title">영어로 말하는 것에 대해 어떻게 느끼시나요?</h2>
-        <p class="step-desc">솔직하게 선택해 주세요. (단일 선택)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="speaking-anxiety" data-value="no-fear" data-multi="false">전혀 두렵지 않음 (바로 실전 가능)</button>
-          <button type="button" class="option" data-group="speaking-anxiety" data-value="little-fear" data-multi="false">약간 부담스러움 (연습하면 괜찮을 듯)</button>
-          <button type="button" class="option" data-group="speaking-anxiety" data-value="much-fear" data-multi="false">매우 부담스러움 (AI로 먼저 연습하고 싶음)</button>
-          <button type="button" class="option" data-group="speaking-anxiety" data-value="avoid" data-multi="false">말하기는 부담 (읽기/듣기 위주 선호)</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
+        <!-- Step 4: 스타일 -->
+        <div class="step" data-step="4">
+          <h2 class="step-title">어떤 학습 방식이 더 잘 맞을 것 같나요?</h2>
+          <p class="step-desc">편하게 느껴지는 방식을 모두 골라주세요. (복수 선택 가능)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="style" data-value="game" data-multi="true">게임처럼 가볍게</button>
+            <button type="button" class="option" data-group="style" data-value="video" data-multi="true">영상/콘텐츠 보면서</button>
+            <button type="button" class="option" data-group="style" data-value="tutor" data-multi="true">1:1 원어민/튜터</button>
+            <button type="button" class="option" data-group="style" data-value="speaking" data-multi="true">스피킹/발음 위주</button>
+            <button type="button" class="option" data-group="style" data-value="vocab-grammar" data-multi="true">단어·문법 문제풀이</button>
+            <button type="button" class="option" data-group="style" data-value="exchange" data-multi="true">원어민과 채팅/통화</button>
+            <button type="button" class="option" data-group="style" data-value="shadowing" data-multi="true">원어민 따라 말하기(쉐도잉)</button>
           </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
-          </div>
-        </div>
-      </div>
-
-      <!-- Step 9: 학습 패턴 -->
-      <div class="step" data-step="9">
-        <h2 class="step-title">어떤 학습 패턴을 선호하시나요?</h2>
-        <p class="step-desc">현실적으로 가능한 패턴을 선택해 주세요. (단일 선택)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="pattern" data-value="daily-short" data-multi="false">매일 짧게 (5~15분씩 꾸준히)</button>
-          <button type="button" class="option" data-group="pattern" data-value="regular-focus" data-multi="false">주 3~4회 집중 (30분 이상)</button>
-          <button type="button" class="option" data-group="pattern" data-value="weekend-intensive" data-multi="false">주말에 몰아서 (1시간 이상)</button>
-          <button type="button" class="option" data-group="pattern" data-value="flexible" data-multi="false">불규칙하게 틈날 때마다</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
-          </div>
-          <div class="right">
-            <button class="nav-btn primary next-btn" type="button">다음</button>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Step 10: 동기부여 -->
-      <div class="step" data-step="10">
-        <h2 class="step-title">무엇이 학습을 지속하게 만드나요?</h2>
-        <p class="step-desc">학습 동기가 되는 요소를 선택해 주세요. (복수 선택 가능)</p>
-        <div class="options">
-          <button type="button" class="option" data-group="motivation-factor" data-value="streak" data-multi="true">연속 학습 일수 (스트릭)</button>
-          <button type="button" class="option" data-group="motivation-factor" data-value="gamification" data-multi="true">레벨업·배지·보상</button>
-          <button type="button" class="option" data-group="motivation-factor" data-value="progress" data-multi="true">실력 향상 그래프·통계</button>
-          <button type="button" class="option" data-group="motivation-factor" data-value="competition" data-multi="true">다른 사람과의 경쟁·랭킹</button>
-          <button type="button" class="option" data-group="motivation-factor" data-value="feedback" data-multi="true">튜터/강사의 피드백</button>
-          <button type="button" class="option" data-group="motivation-factor" data-value="fun" data-multi="true">그냥 재미있으면 됨</button>
-        </div>
-        <div class="nav-buttons">
-          <div class="left">
-            <button class="nav-btn secondary prev-btn" type="button">이전</button>
+        <!-- Step 5: 예산 -->
+        <div class="step" data-step="5">
+          <h2 class="step-title">한 달에 영어 공부에 쓸 수 있는 예산은 어느 정도인가요?</h2>
+          <p class="step-desc">대략적인 감으로 선택해도 괜찮습니다. (단일 선택)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="budget" data-value="free" data-multi="false">무료만 쓰고 싶음</button>
+            <button type="button" class="option" data-group="budget" data-value="under-10k" data-multi="false">월 1만 원 이하</button>
+            <button type="button" class="option" data-group="budget" data-value="10-30k" data-multi="false">월 1만~3만 원</button>
+            <button type="button" class="option" data-group="budget" data-value="30-70k" data-multi="false">월 3만~7만 원</button>
+            <button type="button" class="option" data-group="budget" data-value="70k-plus" data-multi="false">월 7만 원 이상도 괜찮음</button>
+            <button type="button" class="option" data-group="budget" data-value="any" data-multi="false">예산 상관 없음</button>
           </div>
-          <div class="right">
-            <button class="nav-btn primary finish-btn" type="button">결과 보기</button>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
 
-    <section id="resultsSection">
-      <div class="container">
-        <div id="resultsHeader">
-          <h2>🎯 추천 결과</h2>
-          <p>선택한 조건을 기반으로 점수를 계산해 상위 3개 핵심 추천과 그 다음 후보 앱을 보여줍니다.</p>
+        <!-- Step 6: 시간 -->
+        <div class="step" data-step="6">
+          <h2 class="step-title">하루에 영어 공부에 투자할 수 있는 시간은 어느 정도인가요?</h2>
+          <p class="step-desc">현실적으로 가능한 시간을 골라주세요. (단일 선택)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="time" data-value="micro" data-multi="false">5~10분</button>
+            <button type="button" class="option" data-group="time" data-value="short" data-multi="false">10~20분</button>
+            <button type="button" class="option" data-group="time" data-value="medium" data-multi="false">30분~1시간</button>
+            <button type="button" class="option" data-group="time" data-value="long" data-multi="false">1~2시간</button>
+            <button type="button" class="option" data-group="time" data-value="intense" data-multi="false">2시간 이상</button>
+          </div>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
+          </div>
         </div>
-        <div class="selection-summary" id="selectionSummary"></div>
 
-        <div class="results-block" id="topBlock">
-          <h3>⭐ 최적 추천 앱 TOP 3</h3>
-          <p>현재 선택에 가장 잘 맞는 상위 3개 앱입니다.</p>
-          <div class="results-grid" id="topResultsGrid"></div>
+        <!-- Step 7: 성향 -->
+        <div class="step" data-step="7">
+          <h2 class="step-title">학습 성향은 어떤 편인가요?</h2>
+          <p class="step-desc">가까운 항목을 선택해 주세요. (복수 선택 가능)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="motivation" data-value="self-paced" data-multi="true">혼자서도 꾸준히 하는 편</button>
+            <button type="button" class="option" data-group="motivation" data-value="need-guidance" data-multi="true">강사/앱이 끌어줘야 함</button>
+            <button type="button" class="option" data-group="motivation" data-value="need-fun" data-multi="true">재미 없으면 빨리 질림</button>
+            <button type="button" class="option" data-group="motivation" data-value="need-fast-result" data-multi="true">단기간 성과가 중요</button>
+            <button type="button" class="option" data-group="motivation" data-value="exam-focused" data-multi="true">실전 문제 위주가 좋음</button>
+          </div>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
+          </div>
         </div>
 
-        <div class="results-block" id="candidateBlock">
-          <h3>📎 그 외 후보 앱</h3>
-          <p>상위 3개 다음으로 점수가 높게 나온 앱들입니다.</p>
-          <div class="results-grid" id="candidateResultsGrid"></div>
+        <!-- Step 8: 말하기 두려움 -->
+        <div class="step" data-step="8">
+          <h2 class="step-title">영어로 말하는 것에 대해 어떻게 느끼시나요?</h2>
+          <p class="step-desc">솔직하게 선택해 주세요. (단일 선택)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="speaking-anxiety" data-value="no-fear" data-multi="false">전혀 두렵지 않음 (바로 실전 가능)</button>
+            <button type="button" class="option" data-group="speaking-anxiety" data-value="little-fear" data-multi="false">약간 부담스러움 (연습하면 괜찮을 듯)</button>
+            <button type="button" class="option" data-group="speaking-anxiety" data-value="much-fear" data-multi="false">매우 부담스러움 (AI로 먼저 연습하고 싶음)</button>
+            <button type="button" class="option" data-group="speaking-anxiety" data-value="avoid" data-multi="false">말하기는 부담 (읽기/듣기 위주 선호)</button>
+          </div>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
+          </div>
         </div>
 
-        <p class="tiny-note">
-          ※ 실제 가격, 기능, 서비스 정책은 시점·지역·플랜에 따라 달라질 수 있으니, 최종 선택 전에 각 앱의 공식 페이지나 앱 스토어를 다시 확인하는 것을 권장합니다.
-        </p>
-        <div class="back-to-wizard">
-          <button type="button" id="backToWizardBtn">🔄 선택 다시 하기</button>
+        <!-- Step 9: 학습 패턴 -->
+        <div class="step" data-step="9">
+          <h2 class="step-title">어떤 학습 패턴을 선호하시나요?</h2>
+          <p class="step-desc">현실적으로 가능한 패턴을 선택해 주세요. (단일 선택)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="pattern" data-value="daily-short" data-multi="false">매일 짧게 (5~15분씩 꾸준히)</button>
+            <button type="button" class="option" data-group="pattern" data-value="regular-focus" data-multi="false">주 3~4회 집중 (30분 이상)</button>
+            <button type="button" class="option" data-group="pattern" data-value="weekend-intensive" data-multi="false">주말에 몰아서 (1시간 이상)</button>
+            <button type="button" class="option" data-group="pattern" data-value="flexible" data-multi="false">불규칙하게 틈날 때마다</button>
+          </div>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary next-btn" type="button">다음</button>
+            </div>
+          </div>
         </div>
-      </div>
-    </section>
-  </main>
 
-  <script>
-    // 앱 데이터
-    const apps = [
-      {
-        id: "speak",
-        name: "Speak (스픽)",
-        type: "general",
-        category: "스피킹 & 회화",
-        desc: "AI 기반 스피킹 특화 앱으로, 문장을 따라 말하고 피드백을 받으며 회화를 연습합니다.",
-        priceText: "대략 월 1만 원대 구독",
-        goalTags: ["conversation", "pronunciation", "exam-opic"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["speaking", "shadowing"],
-        budget: "10-30k",
-        timeTags: ["short", "medium"],
-        motivationTags: ["need-fun", "self-paced"],
-        linkWeb: "https://www.speak.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=Speak",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Speak"
-      },
-      {
-        id: "cake",
-        name: "Cake (케이크)",
-        type: "general",
-        category: "영상 기반 회화",
-        desc: "짧은 영상과 표현 위주의 학습으로, 자투리 시간에 회화를 익히기 좋은 앱입니다.",
-        priceText: "무료 + 프리미엄 (월 1.5만 원대)",
-        goalTags: ["conversation", "travel", "media"],
-        levelTags: ["beginner", "low-intermediate"],
-        styleTags: ["video", "shadowing"],
-        budget: "free",
-        timeTags: ["micro", "short"],
-        motivationTags: ["need-fun", "self-paced"],
-        linkWeb: "https://cakeapp.me",
-        linkIos: "https://apps.apple.com/kr/search?term=Cake%20English",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Cake%20English"
-      },
-      {
-        id: "duolingo",
-        name: "Duolingo (듀오링고)",
-        type: "general",
-        category: "입문자용 게임형",
-        desc: "게임처럼 문제를 풀며 단어와 문장을 익히는 초보자 친화적인 학습 앱입니다.",
-        priceText: "기본 무료 + 유료 플랜",
-        goalTags: ["basic", "conversation"],
-        levelTags: ["beginner"],
-        styleTags: ["game"],
-        budget: "free",
-        timeTags: ["micro", "short"],
-        motivationTags: ["need-fun", "self-paced"],
-        linkWeb: "https://www.duolingo.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=Duolingo",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Duolingo"
-      },
-      {
-        id: "ringle",
-        name: "Ringle (링글)",
-        type: "general",
-        category: "프리미엄 1:1",
-        desc: "명문대 튜터와 1:1 화상 수업으로 비즈니스·실전 회화를 집중적으로 연습하는 서비스입니다.",
-        priceText: "회당 수만 원대 (패키지별 상이)",
-        goalTags: ["business", "conversation"],
-        levelTags: ["upper-intermediate", "advanced"],
-        styleTags: ["tutor", "speaking"],
-        budget: "70k-plus",
-        timeTags: ["medium", "long"],
-        motivationTags: ["need-guidance", "need-fast-result"],
-        linkWeb: "https://www.ringleplus.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=Ringle",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Ringle"
-      },
-      {
-        id: "elsa",
-        name: "ELSA Speak",
-        type: "general",
-        category: "발음 교정",
-        desc: "개별 음가까지 분석하는 발음 교정 특화 앱으로, 스피킹 발음 개선에 좋습니다.",
-        priceText: "월 약 1.5~1.7만 원대",
-        goalTags: ["pronunciation", "conversation"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["speaking", "shadowing"],
-        budget: "10-30k",
-        timeTags: ["short", "medium"],
-        motivationTags: ["self-paced", "need-fast-result"],
-        linkWeb: "https://elsaspeak.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=ELSA%20Speak",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=ELSA%20Speak"
-      },
-      {
-        id: "hellotalk",
-        name: "HelloTalk",
-        type: "general",
-        category: "언어 교환",
-        desc: "전 세계 원어민과 채팅·음성·통화를 하며 실제 회화를 연습하는 언어 교환 앱입니다.",
-        priceText: "기본 무료, VIP 구독 제공",
-        goalTags: ["conversation", "travel"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["exchange"],
-        budget: "free",
-        timeTags: ["micro", "short", "medium"],
-        motivationTags: ["need-fun", "self-paced"],
-        linkWeb: "https://www.hellotalk.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=HelloTalk",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=HelloTalk"
-      },
-      {
-        id: "lingodeer",
-        name: "LingoDeer",
-        type: "general",
-        category: "문법 & 구조",
-        desc: "문법과 문장 구조를 체계적으로 설명해주는 기초 학습용 앱입니다.",
-        priceText: "구독형 (월 1~1.5만 원대)",
-        goalTags: ["basic"],
-        levelTags: ["beginner", "low-intermediate"],
-        styleTags: ["vocab-grammar"],
-        budget: "10-30k",
-        timeTags: ["short", "medium"],
-        motivationTags: ["self-paced"],
-        linkWeb: "https://www.lingodeer.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=Lingodeer",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Lingodeer"
-      },
-      {
-        id: "babbel",
-        name: "Babbel",
-        type: "general",
-        category: "커리큘럼형",
-        desc: "문법과 회화를 함께 다루는 단계형 커리큘럼을 제공하는 다국어 학습 앱입니다.",
-        priceText: "유료 구독 모델",
-        goalTags: ["basic", "conversation", "media"],
-        levelTags: ["beginner", "low-intermediate"],
-        styleTags: ["vocab-grammar", "video"],
-        budget: "10-30k",
-        timeTags: ["short", "medium"],
-        motivationTags: ["self-paced"],
-        linkWeb: "https://www.babbel.com/",
-        linkIos: "https://apps.apple.com/kr/search?term=Babbel",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Babbel"
-      },
-      {
-        id: "santa",
-        name: "Santa – AI TOEIC",
-        type: "exam",
-        category: "TOEIC",
-        desc: "토익 LC/RC, 단어, 강의를 AI 분석 기반으로 개인 맞춤 학습 경로로 제공하는 토익 전문 앱입니다.",
-        priceText: "구독형 (지역·플랜별 상이)",
-        goalTags: ["exam-toeic"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["vocab-grammar", "video"],
-        budget: "10-30k",
-        timeTags: ["short", "medium", "long"],
-        motivationTags: ["exam-focused", "need-fast-result", "self-paced"],
-        linkWeb: "https://santa.ai/ko",
-        linkIos: "https://apps.apple.com/kr/search?term=Santa%20TOEIC",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=Santa%20TOEIC"
-      },
-      {
-        id: "tosme",
-        name: "TOSME (토스미)",
-        type: "exam",
-        category: "TOEIC Speaking",
-        desc: "토익 스피킹 대비 특화 앱으로, AI가 발화를 채점하고 빠르게 피드백을 제공합니다.",
-        priceText: "2주 코스 약 6만 원대",
-        goalTags: ["exam-opic", "pronunciation"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["speaking", "shadowing"],
-        budget: "30-70k",
-        timeTags: ["medium", "long"],
-        motivationTags: ["exam-focused", "need-fast-result"],
-        linkWeb: "https://www.tosme.co.kr/",
-        linkIos: "https://apps.apple.com/kr/search?term=토스미",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=토스미"
-      },
-      {
-        id: "opicup",
-        name: "오픽업 (OPIcUp)",
-        type: "exam",
-        category: "OPIc",
-        desc: "주제별 토픽 학습, 실제 시험과 유사한 모의고사, AI 발음 평가와 VR 시험장 체험을 제공하는 오픽 준비 앱입니다.",
-        priceText: "기본 무료 + 인앱 결제",
-        goalTags: ["exam-opic", "pronunciation"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["speaking", "shadowing"],
-        budget: "10-30k",
-        timeTags: ["short", "medium"],
-        motivationTags: ["exam-focused", "need-fast-result"],
-        linkWeb: "https://opicup.co.kr/",
-        linkIos: "https://apps.apple.com/kr/search?term=오픽업",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=오픽업"
-      },
-      {
-        id: "toeflready",
-        name: "TOEFL TestReady™",
-        type: "exam",
-        category: "TOEFL 공식",
-        desc: "시험 주관사 ETS가 제공하는 공식 준비 플랫폼으로, 실제 시험 유형과 유사한 문제를 제공합니다.",
-        priceText: "기본 무료 + 일부 유료",
-        goalTags: ["exam-toefl"],
-        levelTags: ["intermediate", "upper-intermediate", "advanced"],
-        styleTags: ["vocab-grammar"],
-        budget: "free",
-        timeTags: ["short", "medium"],
-        motivationTags: ["exam-focused", "self-paced"],
-        linkWeb: "https://www.ets.org/toefl/testready.html",
-        linkIos: "https://apps.apple.com/kr/search?term=TOEFL%20TestReady",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=TOEFL%20TestReady"
-      },
-      {
-        id: "ielts-prep",
-        name: "IELTS Preparation",
-        type: "exam",
-        category: "IELTS",
-        desc: "리딩, 리스닝, 스피킹, 라이팅 4영역을 연습할 수 있는 IELTS 올인원 연습 앱입니다.",
-        priceText: "기본 무료 + 인앱 결제",
-        goalTags: ["exam-ielts"],
-        levelTags: ["intermediate", "upper-intermediate"],
-        styleTags: ["vocab-grammar", "video"],
-        budget: "under-10k",
-        timeTags: ["medium", "long"],
-        motivationTags: ["exam-focused", "self-paced"],
-        linkWeb: "https://www.ielts.org/",
-        linkIos: "https://apps.apple.com/kr/search?term=IELTS%20Preparation",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=IELTS%20Preparation"
-      },
-      {
-        id: "hackers-teps",
-        name: "해커스 텝스",
-        type: "exam",
-        category: "TEPS",
-        desc: "매일 텝스 풀기, 보카, 무료 동영상 강의와 텝스 커뮤니티, 점수 환산기 등을 제공하는 텝스 전문 앱입니다.",
-        priceText: "앱 기본 무료",
-        goalTags: ["exam-teps"],
-        levelTags: ["low-intermediate", "intermediate", "upper-intermediate"],
-        styleTags: ["vocab-grammar"],
-        budget: "free",
-        timeTags: ["short", "medium"],
-        motivationTags: ["exam-focused", "self-paced"],
-        linkWeb: "https://www.hackers.ac/teps",
-        linkIos: "https://apps.apple.com/kr/search?term=해커스%20텝스",
-        linkAndroid: "https://play.google.com/store/search?c=apps&q=해커스%20텝스"
-      }
-    ];
+        <!-- Step 10: 동기부여 -->
+        <div class="step" data-step="10">
+          <h2 class="step-title">무엇이 학습을 지속하게 만드나요?</h2>
+          <p class="step-desc">학습 동기가 되는 요소를 선택해 주세요. (복수 선택 가능)</p>
+          <div class="options">
+            <button type="button" class="option" data-group="motivation-factor" data-value="streak" data-multi="true">연속 학습 일수 (스트릭)</button>
+            <button type="button" class="option" data-group="motivation-factor" data-value="gamification" data-multi="true">레벨업·배지·보상</button>
+            <button type="button" class="option" data-group="motivation-factor" data-value="progress" data-multi="true">실력 향상 그래프·통계</button>
+            <button type="button" class="option" data-group="motivation-factor" data-value="competition" data-multi="true">다른 사람과의 경쟁·랭킹</button>
+            <button type="button" class="option" data-group="motivation-factor" data-value="feedback" data-multi="true">튜터/강사의 피드백</button>
+            <button type="button" class="option" data-group="motivation-factor" data-value="fun" data-multi="true">그냥 재미있으면 됨</button>
+          </div>
+          <div class="nav-buttons">
+            <div class="left">
+              <button class="nav-btn secondary prev-btn" type="button">이전</button>
+            </div>
+            <div class="right">
+              <button class="nav-btn primary finish-btn" type="button">결과 보기</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
-    const steps = document.querySelectorAll(".step");
-    const stepText = document.getElementById("stepText");
-    const progressFill = document.getElementById("progressFill");
-    const wizardEl = document.getElementById("wizard");
-    const resultsSection = document.getElementById("resultsSection");
-    const topResultsGrid = document.getElementById("topResultsGrid");
-    const candidateResultsGrid = document.getElementById("candidateResultsGrid");
-    const selectionSummary = document.getElementById("selectionSummary");
-    const backToWizardBtn = document.getElementById("backToWizardBtn");
-    const candidateBlock = document.getElementById("candidateBlock");
+      <section id="resultsSection">
+        <div class="container">
+          <div id="resultsHeader">
+            <h2>🎯 추천 결과</h2>
+            <p>선택한 조건을 기반으로 점수를 계산해 상위 3개 핵심 추천과 그 다음 후보 앱을 보여줍니다.</p>
+          </div>
+          <div class="selection-summary" id="selectionSummary"></div>
+          <p id="scoreInfo" class="tiny-note">
+            적합도 점수는 현재 선택한 조건에서 가장 잘 맞는 앱을 <strong>100점 만점</strong>으로 잡고,
+            나머지 앱을 그에 맞춰 환산한 상대 점수입니다.
+          </p>
 
-    let currentStepIndex = 0;
+          <div class="results-block" id="topBlock">
+            <h3>⭐ 최적 추천 앱 TOP 3</h3>
+            <p>현재 선택에 가장 잘 맞는 상위 3개 앱입니다.</p>
+            <div class="results-grid" id="topResultsGrid"></div>
+          </div>
 
-    function updateStepUI() {
-      steps.forEach((step, idx) => {
-        step.classList.toggle("active", idx === currentStepIndex);
-      });
-      const totalSteps = steps.length;
-      stepText.textContent = `Step ${currentStepIndex + 1} / ${totalSteps}`;
-      const percent = ((currentStepIndex + 1) / totalSteps) * 100;
-      progressFill.style.width = percent + "%";
-    }
+          <div class="results-block" id="candidateBlock">
+            <h3>📎 그 외 후보 앱</h3>
+            <p>상위 3개 다음으로 점수가 높게 나온 앱들입니다.</p>
+            <div class="results-grid" id="candidateResultsGrid"></div>
+          </div>
 
-    function handleOptionClick(btn) {
-      const multi = btn.dataset.multi === "true";
-      const group = btn.dataset.group;
+          <div class="result-note-box">
+            <h3>📌 참고 안내</h3>
+            <p>
+              이 추천 결과는 지금 입력한 조건을 기준으로 계산된 <strong>가이드</strong>예요.<br>
+              실제 가격, 이용 요금제, 세부 기능은 시점·지역·프로모션에 따라 달라질 수 있으니<br>
+              최종 선택 전에는 반드시 각 앱의 <strong>공식 사이트·앱 스토어 정보를 다시 확인</strong>해 주세요.
+            </p>
+          </div>
 
-      if (!multi) {
-        const siblings = document.querySelectorAll(
-          `.option[data-group="${group}"]`
-        );
-        siblings.forEach((el) => {
-          if (el !== btn) el.classList.remove("selected");
-        });
-        btn.classList.toggle("selected");
-      } else {
-        btn.classList.toggle("selected");
-      }
-    }
+<div class="back-to-wizard">
+            <button type="button" id="backToWizardBtn">🔄 선택 다시 하기</button>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
 
-    function validateCurrentStep() {
-      const activeStep = steps[currentStepIndex];
-      const selected = activeStep.querySelectorAll(".option.selected");
-      if (!selected.length) {
-        alert("하나 이상 선택해 주세요.");
-        return false;
-      }
-      return true;
-    }
+<script>
+  function goStep2() {
+    document.getElementById("step1-wrap").style.display = "none";
+    document.getElementById("step2-wrap").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
-    function collectAnswers() {
-      const answers = {
-        goals: [],
-        exams: [],
-        level: null,
-        styles: [],
-        budget: null,
-        time: null,
-        motivations: [],
-        speakingAnxiety: null,
-        pattern: null,
-        motivationFactors: []
-      };
+  function goStep1() {
+    document.getElementById("step2-wrap").style.display = "none";
+    document.getElementById("step1-wrap").style.display = "block";
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
 
-      document.querySelectorAll('.option.selected[data-group="goal"]').forEach((btn) => {
-        answers.goals.push(btn.dataset.value);
-      });
-
-      document.querySelectorAll('.option.selected[data-group="exam"]').forEach((btn) => {
-        answers.exams.push(btn.dataset.value);
-      });
-
-      const levelBtn = document.querySelector('.option.selected[data-group="level"]');
-      if (levelBtn) answers.level = levelBtn.dataset.value;
-
-      document.querySelectorAll('.option.selected[data-group="style"]').forEach((btn) => {
-        answers.styles.push(btn.dataset.value);
-      });
-
-      const budgetBtn = document.querySelector('.option.selected[data-group="budget"]');
-      if (budgetBtn) answers.budget = budgetBtn.dataset.value;
-
-      const timeBtn = document.querySelector('.option.selected[data-group="time"]');
-      if (timeBtn) answers.time = timeBtn.dataset.value;
-
-      document.querySelectorAll('.option.selected[data-group="motivation"]').forEach((btn) => {
-        answers.motivations.push(btn.dataset.value);
-      });
-
-      const speakingAnxietyBtn = document.querySelector('.option.selected[data-group="speaking-anxiety"]');
-      if (speakingAnxietyBtn) answers.speakingAnxiety = speakingAnxietyBtn.dataset.value;
-
-      const patternBtn = document.querySelector('.option.selected[data-group="pattern"]');
-      if (patternBtn) answers.pattern = patternBtn.dataset.value;
-
-      document.querySelectorAll('.option.selected[data-group="motivation-factor"]').forEach((btn) => {
-        answers.motivationFactors.push(btn.dataset.value);
-      });
-
-      return answers;
-    }
-
-    function scoreApp(app, answers) {
-      let score = 0;
-
-      const wantsExam = (answers.exams || []).some((e) => e.startsWith("exam-"));
-      const noExam = (answers.exams || []).includes("none");
-
-      if (answers.goals && answers.goals.length) {
-        app.goalTags.forEach((tag) => {
-          if (answers.goals.includes(tag)) {
-            score += 6;
-          }
-        });
-      }
-
-      if (answers.exams && answers.exams.length) {
-        const examTags = ["exam-toeic", "exam-opic", "exam-toefl", "exam-ielts", "exam-teps", "exam-others"];
-        examTags.forEach((examTag) => {
-          if (answers.exams.includes(examTag) && app.goalTags.includes(examTag)) {
-            score += 8;
-          }
-        });
-
-        if (wantsExam && app.type === "general") {
-          score -= 2;
+  // 추천 방식 토글
+  // 추천 방식 토글 (효과 없이 즉시 표시)
+  document.addEventListener('DOMContentLoaded', function() {
+    const toggleBtn = document.getElementById('toggleHowBtn');
+    const howSection = document.getElementById('step1-how');
+    const toggleText = document.getElementById('toggleHowText');
+    const introBullets = document.getElementById('introBullets');
+    const introBadges = document.getElementById('introBadges');
+    
+    if (toggleBtn && howSection) {
+      toggleBtn.addEventListener('click', function() {
+        if (howSection.classList.contains('show')) {
+          // 닫기
+          howSection.classList.remove('show');
+          if (introBullets) introBullets.style.display = 'none';
+          if (introBadges) introBadges.style.display = 'none';
+          toggleText.textContent = '🔍 추천 방식 보기';
+        } else {
+          // 열기
+          howSection.classList.add('show');
+          if (introBullets) introBullets.style.display = 'block';
+          if (introBadges) introBadges.style.display = 'flex';
+          toggleText.textContent = '✖ 닫기';
+          setTimeout(() => {
+            howSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+          }, 50);
         }
-        if (noExam && app.type === "exam") {
+      });
+    }
+  });
+
+  // ----- 앱 데이터 (확장 DB) -----
+
+  const apps = [
+  {
+    "id": "speak",
+    "name": "Speak (스픽)",
+    "type": "general",
+    "category": "AI 스피킹",
+    "desc": "AI 기반 스피킹 학습 앱으로, 문장을 따라 읽고 피드백을 받을 수 있습니다.",
+    "priceText": "💰 월 약 1.2만 원대 구독형",
+    "goalTags": [
+      "conversation",
+      "pronunciation"
+],
+    "levelTags": [
+      "beginner",
+      "low-intermediate"
+    ],
+    "styleTags": [
+      "speaking",
+      "game"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.speak.com/",
+    "linkIos": "https://apps.apple.com/kr/app/%EC%8A%A4%ED%94%BD-speak-%EC%98%81%EC%96%B4%ED%9A%8C%ED%99%94-%EC%8A%A4%ED%94%BC%ED%82%B9-%EB%B0%9C%EC%9D%8C/id1286609883",
+    "linkAndroid": "https://play.google.com/store/search?q=%EC%8A%A4%ED%94%BD&c=apps"
+  },
+  {
+    "id": "cake",
+    "name": "Cake (케이크)",
+    "type": "general",
+    "category": "영상학습",
+    "desc": "짧은 영상으로 표현과 발음을 배울 수 있는 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "conversation",
+      "pronunciation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "video"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://cake.day/home",
+    "linkIos": "https://apps.apple.com/kr/app/cake-%EC%A0%84-%EC%84%B8%EA%B3%84-1%EC%96%B5-%EB%8B%A4%EC%9A%B4%EB%A1%9C%EB%93%9C-%EC%98%81%EC%96%B4-%ED%95%99%EC%8A%B5-%EC%95%B1/id1350420987",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=me.mycake"
+  },
+  {
+    "id": "duolingo",
+    "name": "Duolingo (듀오링고)",
+    "type": "general",
+    "category": "게임형",
+    "desc": "게임처럼 재미있게 기초 영어를 배울 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Super 월 약 1만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "game",
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.duolingo.com/",
+    "linkIos": "https://apps.apple.com/app/duolingo/id570060128",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.duolingo"
+  },
+  {
+    "id": "ringle",
+    "name": "Ringle (링글)",
+    "type": "general",
+    "category": "비즈니스",
+    "desc": "1:1 원어민 튜터와 비즈니스 영어를 연습할 수 있는 앱입니다.",
+    "priceText": "💰 20분 수업 약 2.5만 원대",
+    "goalTags": [
+      "conversation",
+      "business"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.ringleplus.com/",
+    "linkIos": "https://apps.apple.com/kr/app/%EB%A7%81%EA%B8%80-ringle-1-1-%ED%99%94%EC%83%81%EC%98%81%EC%96%B4-%EC%98%81%EC%96%B4%ED%9A%8C%ED%99%94/id1189876556",
+    "linkAndroid": "https://play.google.com/store/search?q=%EB%A7%81%EA%B8%80&c=apps"
+  },
+  {
+    "id": "elsa-speak",
+    "name": "ELSA Speak",
+    "type": "general",
+    "category": "발음교정",
+    "desc": "AI 기반 발음 교정 앱으로, 정확한 발음을 학습할 수 있습니다.",
+    "priceText": "💰 월 약 1만 원대 구독형",
+    "goalTags": [
+      "pronunciation",
+      "conversation"
+    ],
+    "levelTags": [
+      "beginner",
+      "low-intermediate"
+    ],
+    "styleTags": [
+      "speaking"
+    ],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://elsaspeak.com/",
+    "linkIos": "https://apps.apple.com/app/elsa-speak/id1083804886",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=us.nobarriers.elsa"
+  },
+  {
+    "id": "hellotalk",
+    "name": "HelloTalk",
+    "type": "general",
+    "category": "언어교환",
+    "desc": "원어민과 언어 교환을 통해 영어 회화를 연습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (VIP 연 약 7만 원)",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner",
+      "low-intermediate"
+    ],
+    "styleTags": [
+      "exchange"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.hellotalk.com/",
+    "linkIos": "https://apps.apple.com/app/hellotalk/id557130558",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.hellotalk"
+  },
+  {
+    "id": "lingodeer",
+    "name": "LingoDeer",
+    "type": "general",
+    "category": "문법",
+    "desc": "체계적인 문법과 어휘 학습을 제공하는 앱입니다.",
+    "priceText": "💰 월 약 2만 원대 구독형",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar", "game"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.lingodeer.com/",
+    "linkIos": "https://apps.apple.com/app/lingodeer/id1261193709",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.lingodeer"
+  },
+  {
+    "id": "babbel",
+    "name": "Babbel",
+    "type": "general",
+    "category": "회화",
+    "desc": "실용적인 회화 표현을 학습할 수 있는 앱입니다.",
+    "priceText": "💰 월 약 1.5~1.7만 원대",
+    "goalTags": [
+      "conversation",
+      "travel"
+],
+    "levelTags": [
+      "beginner",
+      "low-intermediate"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.babbel.com/",
+    "linkIos": "https://apps.apple.com/app/babbel/id829587759",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.babbel.mobile.android.en"
+  },
+  {
+    "id": "memrise",
+    "name": "Memrise",
+    "type": "general",
+    "category": "단어암기",
+    "desc": "단어 암기와 회화 학습을 함께 할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Pro 월 약 1.5만 원)",
+    "goalTags": [
+      "basic",
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "game",
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.memrise.com/",
+    "linkIos": "https://apps.apple.com/app/memrise/id635966718",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.memrise.android.memrisecompanion"
+  },
+  {
+    "id": "busuu",
+    "name": "Busuu",
+    "type": "general",
+    "category": "종합학습",
+    "desc": "체계적인 커리큘럼으로 기초부터 학습할 수 있는 앱입니다.",
+    "priceText": "💰 월 약 1.5만 원대 구독형",
+    "goalTags": [
+      "basic",
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.busuu.com/",
+    "linkIos": "https://apps.apple.com/app/busuu/id379968583",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.busuu.android.enc"
+  },
+  {
+    "id": "mondly",
+    "name": "Mondly",
+    "type": "general",
+    "category": "AI 챗봇",
+    "desc": "AI 챗봇과 대화하며 회화를 연습할 수 있는 앱입니다.",
+    "priceText": "💰 월 약 1.5만 원대 구독형",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "speaking",
+      "game"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.mondly.com/",
+    "linkIos": "https://apps.apple.com/app/mondly/id987873536",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.atistudios.mondly.languages"
+  },
+  {
+    "id": "anki",
+    "name": "Anki",
+    "type": "general",
+    "category": "플래시카드",
+    "desc": "플래시카드로 단어와 문법을 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (iOS 약 3만 원 매수)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://apps.ankiweb.net",
+    "linkIos": "https://apps.apple.com/app/ankimobile-flashcards/id373493387",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.ichi2.anki"
+  },
+  {
+    "id": "quizlet",
+    "name": "Quizlet",
+    "type": "general",
+    "category": "암기학습",
+    "desc": "다양한 학습 모드로 단어를 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Plus 월 약 1만 원)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar", "game"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://quizlet.com",
+    "linkIos": "https://apps.apple.com/app/quizlet/id546473125",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.quizlet.quizletandroid"
+  },
+  {
+    "id": "beelinguapp",
+    "name": "Beelinguapp",
+    "type": "general",
+    "category": "리딩",
+    "desc": "이중 언어 텍스트와 오디오로 리딩을 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 연 약 7만 원)",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://beelinguapp.com",
+    "linkIos": "https://apps.apple.com/us/app/beelinguapp-language-learning/id1225056371",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.david.android.languageswitch"
+  },
+  {
+    "id": "ewa-english",
+    "name": "EWA English",
+    "type": "general",
+    "category": "영화/드라마",
+    "desc": "영화와 드라마로 영어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 1.5만 원)",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.ewa.app",
+    "linkIos": "https://apps.apple.com/app/ewa-english-language-learning/id1200778841",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.ewa.ewaapp"
+  },
+  {
+    "id": "lingokids",
+    "name": "Lingokids",
+    "type": "general",
+    "category": "어린이",
+    "desc": "어린이를 위한 게임형 영어 학습 앱입니다.",
+    "priceText": "💰 월 약 2만 원대 구독형",
+    "goalTags": [
+      "kids"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "game"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.lingokids.com",
+    "linkIos": "https://apps.apple.com/us/app/lingokids-play-and-learn/id1002043426",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=es.monkimun.lingokids"
+  },
+  {
+    "id": "khan-academy-kids",
+    "name": "Khan Academy Kids",
+    "type": "general",
+    "category": "어린이",
+    "desc": "Khan Academy의 어린이용 영어 학습 앱입니다.",
+    "priceText": "💰 완전 무료",
+    "goalTags": [
+      "kids"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "game"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://learn.khanacademy.org/khan-academy-kids/",
+    "linkIos": "https://apps.apple.com/app/khan-academy-kids/id1378467217",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=org.khankids.android"
+  },
+  {
+    "id": "wordup-vocabulary",
+    "name": "WordUp Vocabulary",
+    "type": "general",
+    "category": "어휘",
+    "desc": "에 초점을 둔 영어 학습 앱입니다.",
+    "priceText": "💰 무료 (Premium 연 약 6만 원)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://wordupapp.co",
+    "linkIos": "https://apps.apple.com/us/app/wordup-vocabulary-builder/id1365078730",
+    "linkAndroid": "https://play.google.com/store/search?q=WordUp+Vocabulary&c=apps"
+  },
+  {
+    "id": "santa-toeic",
+    "name": "Santa TOEIC",
+    "type": "exam",
+    "category": "TOEIC",
+    "desc": "AI 기반 TOEIC 학습 앱으로, 개인 맞춤형 문제를 제공합니다.",
+    "priceText": "💰 월 약 3.3만 원 구독형",
+    "goalTags": ["exam-toeic"],
+    "levelTags": [
+      "low-intermediate",
+      "intermediate"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "motivationTags": [
+      "self-paced",
+      "exam-focused"
+    ],
+    "linkWeb": "https://kr.aitutorsanta.com/",
+    "linkIos": "https://apps.apple.com/us/app/santa-ai-toeic/id1148006701",
+    "linkAndroid": "https://play.google.com/store/search?q=Santa+TOEIC&c=apps"
+  },
+  {
+    "id": "tosme",
+    "name": "TOSME (토스미)",
+    "type": "general",
+    "category": "OPIc/토스",
+    "desc": "OPIc과 토익스피킹 대비 앱입니다.",
+    "priceText": "💰 월 약 1.6만 원대 구독형",
+    "goalTags": ["exam-opic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.tosme.kr/home",
+    "linkIos": "https://apps.apple.com/kr/app/%ED%86%A0%EC%8A%A4%EB%AF%B8-%ED%86%A0%EC%9D%B5%EC%8A%A4%ED%94%BC%ED%82%B9-%EB%AA%A8%EC%9D%98%EA%B3%A0%EC%82%AC-ai%EC%B1%84%EC%A0%90-%EC%B2%A8%EC%82%AD/id6502824958",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=ai.english.learn.tosme"
+  },
+  {
+    "id": "app",
+    "name": "오픽업 (OPIcUp)",
+    "type": "exam",
+    "category": "단어암기",
+    "desc": "말하면서 단어를 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar",
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "motivationTags": [
+      "self-paced",
+      "exam-focused"
+    ],
+    "linkWeb": "https://www.opicup.com/",
+    "linkIos": "https://apps.apple.com/kr/app/%EC%98%A4%ED%94%BD-1%EC%9C%84-%EC%98%A4%ED%94%BD%EC%97%85/id1475710765",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.hue6.opicup"
+  },
+  {
+    "id": "toefl-testreadytm",
+    "name": "TOEFL TestReady™",
+    "type": "exam",
+    "category": "TOEFL",
+    "desc": "ETS 공식 TOEFL 시험 대비 앱으로, 단어와 문법 학습을 제공합니다.",
+    "priceText": "💰 무료 (일부 유료 콘텐츠)",
+    "goalTags": ["exam-toefl"],
+    "levelTags": [
+      "intermediate",
+      "upper-intermediate"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "motivationTags": [
+      "self-paced",
+      "exam-focused"
+    ],
+    "linkWeb": "https://www.ets.org/toefl.html",
+    "linkIos": "https://apps.apple.com/us/app/toefl-prep-practice/id976404334",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=org.ets.toeflpracticeaicoach"
+  },
+  {
+    "id": "ielts-preparation",
+    "name": "IELTS Preparation",
+    "type": "exam",
+    "category": "IELTS",
+    "desc": "IELTS 시험 준비를 위한 종합 학습 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": ["exam-ielts"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "motivationTags": [
+      "self-paced",
+      "exam-focused"
+    ],
+    "linkWeb": "https://www.ielts.org/",
+    "linkIos": "https://apps.apple.com/app/ielts-prep-app/id1446976674",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.arturagapov.ielts_prep"
+  },
+  {
+    "id": "hackers-teps",
+    "name": "해커스 텝스",
+    "type": "exam",
+    "category": "TEPS",
+    "desc": "해커스의 TEPS 시험 대비 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "exam-teps"
+    ],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar",
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "motivationTags": [
+      "self-paced",
+      "exam-focused"
+    ],
+    "linkWeb": "https://www.hackers.ac/teps",
+    "linkIos": "https://apps.apple.com/kr/app/%ED%95%B4%EC%BB%A4%EC%8A%A4-%ED%85%9D%EC%8A%A4/id459740688",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.hackers.app.teps"
+  },
+  {
+    "id": "app",
+    "name": "캐치잇 잉글리시",
+    "type": "general",
+    "category": "단어암기",
+    "desc": "말하면서 단어를 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar",
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://catchitenglish.com/ko",
+    "linkIos": "https://apps.apple.com/kr/app/catch-it-english/id881322806",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.nxc.catchitenglishbasic.google"
+  },
+  {
+    "id": "rosetta-stone",
+    "name": "Rosetta Stone",
+    "type": "general",
+    "category": "몰입학습",
+    "desc": "몰입형 학습 방식으로 기초 영어를 배울 수 있는 앱입니다.",
+    "priceText": "💰 연 약 15만 원대 구독형",
+    "goalTags": [
+      "basic",
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.rosettastone.com/",
+    "linkIos": "https://apps.apple.com/app/rosetta-stone/id435588892",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=air.com.rosettastone.mobile.CoursePlayer"
+  },
+  {
+    "id": "pimsleur",
+    "name": "Pimsleur",
+    "type": "general",
+    "category": "오디오",
+    "desc": "오디오 기반 회화 학습 앱입니다.",
+    "priceText": "💰 월 약 3만 원대 구독형",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.pimsleur.com/",
+    "linkIos": "https://apps.apple.com/app/pimsleur/id1405735469",
+    "linkAndroid": "https://play.google.com/store/search?q=Pimsleur&c=apps"
+  },
+  {
+    "id": "cambly",
+    "name": "Cambly (캠블리)",
+    "type": "general",
+    "category": "원어민",
+    "desc": "원어민 튜터와 자유 대화를 할 수 있는 앱입니다.",
+    "priceText": "💰 주 3회 30분 월 약 10만 원대",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.cambly.com/",
+    "linkIos": "https://apps.apple.com/app/cambly/id564024107",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.cambly.cambly"
+  },
+  {
+    "id": "drops",
+    "name": "Drops",
+    "type": "general",
+    "category": "단어",
+    "desc": "5분 단위로 단어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 2만 원)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar", "game"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://languagedrops.com/",
+    "linkIos": "https://apps.apple.com/app/drops/id939540371",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.languagedrops.drops.international"
+  },
+  {
+    "id": "lingq",
+    "name": "LingQ",
+    "type": "general",
+    "category": "리딩",
+    "desc": "다양한 콘텐츠를 읽으며 영어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 2만 원)",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.lingq.com/",
+    "linkIos": "https://apps.apple.com/app/lingq/id379385811",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.linguist"
+  },
+  {
+    "id": "lingbe",
+    "name": "Lingbe",
+    "type": "general",
+    "category": "언어교환",
+    "desc": "원어민과 즉시 전화 통화로 연습할 수 있는 앱입니다.",
+    "priceText": "💰 완전 무료",
+    "goalTags": ["conversation"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["exchange"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.lingbe.com/",
+    "linkIos": "https://apps.apple.com/app/lingbe/id1061633775",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.lingbe.app"
+  },
+  {
+    "id": "app",
+    "name": "링고라 (튜터링)",
+    "type": "general",
+    "category": "단어암기",
+    "desc": "말하면서 단어를 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar",
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://tutoring.co.kr/",
+    "linkIos": "https://apps.apple.com/kr/app/lingora/id1115973003",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=tutoring.app"
+  },
+  {
+    "id": "engoo",
+    "name": "Engoo (엔구)",
+    "type": "general",
+    "category": "온라인수업",
+    "desc": "다양한 국적의 튜터와 온라인 수업을 할 수 있는 앱입니다.",
+    "priceText": "💰 매일 25분 월 약 7만 원",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://engoo.co.kr/",
+    "linkIos": "https://apps.apple.com/kr/app/%EC%98%81%EB%8B%A8%EC%96%B4-%EC%95%94%EA%B8%B0-%EC%97%94%EA%B3%A0-engo/id6736710931",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.palmdev.expressenglish"
+  },
+  {
+    "id": "bbc-learning-english",
+    "name": "BBC Learning English",
+    "type": "general",
+    "category": "BBC",
+    "desc": "BBC의 뉴스와 콘텐츠로 영어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 완전 무료",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.bbc.co.uk/learningenglish/",
+    "linkIos": "https://apps.apple.com/app/learn-english-by-conversation/id1035251420",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.learningenglish.studyingbbc.bbc_reborn"
+  },
+  {
+    "id": "fluentu",
+    "name": "FluentU",
+    "type": "general",
+    "category": "영상",
+    "desc": "실제 영상 콘텐츠로 영어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 월 약 4만 원대 구독형",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.fluentu.com/",
+    "linkIos": "https://apps.apple.com/app/fluentu/id917892175",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.fluentflix.fluentu"
+  },
+  {
+    "id": "tandem",
+    "name": "Tandem",
+    "type": "general",
+    "category": "언어교환",
+    "desc": "언어 교환 파트너를 찾아 대화할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Pro 월 약 1만 원)",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "exchange"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.tandem.net/",
+    "linkIos": "https://apps.apple.com/app/tandem/id959001619",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=net.tandem"
+  },
+  {
+    "id": "lingvist",
+    "name": "Lingvist",
+    "type": "general",
+    "category": "AI 학습",
+    "desc": "AI 기반으로 단어와 문법을 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Unlimited 월 약 1.5만 원)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://lingvist.com/",
+    "linkIos": "https://apps.apple.com/us/app/lingvist-learn-languages-fast/id969093402",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=io.lingvist.android"
+  },
+  {
+    "id": "yabla",
+    "name": "Yabla",
+    "type": "general",
+    "category": "영상자막",
+    "desc": "영상 자막과 함께 리스닝을 연습할 수 있는 앱입니다.",
+    "priceText": "💰 월 약 2만 원대 구독형",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "",
+    "linkIos": "",
+    "linkAndroid": ""
+  },
+  {
+    "id": "clozemaster",
+    "name": "Clozemaster",
+    "type": "general",
+    "category": "문장학습",
+    "desc": "문장 빈칸 채우기로 어휘를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Pro 월 약 1만 원)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar", "game"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.clozemaster.com/",
+    "linkIos": "https://apps.apple.com/us/app/clozemaster-expand-vocabulary/id1149199075",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.clozemaster.v2"
+  },
+  {
+    "id": "mango-languages",
+    "name": "Mango Languages",
+    "type": "general",
+    "category": "회화",
+    "desc": "실용 회화 중심의 언어 학습 앱입니다.",
+    "priceText": "💰 도서관 무료 (개인 월 약 2만 원)",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://mangolanguages.com/",
+    "linkIos": "https://apps.apple.com/us/app/mango-languages-learning/id443516516",
+    "linkAndroid": "https://play.google.com/store/search?q=Mango+Languages&c=apps"
+  },
+  {
+    "id": "speechling",
+    "name": "Speechling",
+    "type": "general",
+    "category": "발음",
+    "desc": "원어민의 발음 피드백을 받을 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Unlimited 월 약 3만 원)",
+    "goalTags": ["pronunciation"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["speaking"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://speechling.com/",
+    "linkIos": "https://apps.apple.com/us/app/speechling-learn-any-language/id1239983313",
+    "linkAndroid": "https://play.google.com/store/search?q=Speechling&c=apps"
+  },
+  {
+    "id": "readlang",
+    "name": "Readlang",
+    "type": "general",
+    "category": "웹콘텐츠",
+    "desc": "웹 콘텐츠를 읽으며 단어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 1만 원)",
+    "goalTags": ["media"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["video"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://readlang.com/",
+    "linkIos": "https://apps.apple.com/us/app/readlang-watchlang/id1602114377",
+    "linkAndroid": "https://play.google.com/store/search?q=Readlang&c=apps"
+  },
+  {
+    "id": "50languages",
+    "name": "50Languages",
+    "type": "general",
+    "category": "기초회화",
+    "desc": "기초 회화 표현을 100개 레슨으로 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 매수 약 1.5만 원)",
+    "goalTags": ["basic", "conversation"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.50languages.com/",
+    "linkIos": "https://apps.apple.com/us/app/50-languages/id487070134",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.goethe.f50languages"
+  },
+  {
+    "id": "innovative-language",
+    "name": "Innovative Language",
+    "type": "general",
+    "category": "팟캐스트",
+    "desc": "팟캐스트 기반 영어 학습 앱입니다.",
+    "priceText": "💰 무료 (Basic 월 약 1.5만 원)",
+    "goalTags": ["basic"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": ["vocab-grammar"],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.innovativelanguage.com/",
+    "linkIos": "https://apps.apple.com/us/app/innovative-language-learning/id668386019",
+    "linkAndroid": "https://play.google.com/store/search?q=Innovative+Language&c=apps"
+  },
+  {
+    "id": "voicetube",
+    "name": "VoiceTube",
+    "type": "general",
+    "category": "유튜브",
+    "desc": "유튜브 영상으로 영어를 학습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Hero 월 약 2만 원)",
+    "goalTags": [
+      "media"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "video"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.voicetube.com/",
+    "linkIos": "https://apps.apple.com/us/app/voicetube-learn-english/id641446200",
+    "linkAndroid": "https://play.google.com/store/search?q=VoiceTube&c=apps"
+  },
+  {
+    "id": "business-english-pod",
+    "name": "Business English Pod",
+    "type": "general",
+    "category": "비즈니스",
+    "desc": "비즈니스 영어 학습을 위한 팟캐스트 기반 앱입니다.",
+    "priceText": "💰 무료 (Premium 연 약 30만 원)",
+    "goalTags": [
+      "business"
+],
+    "levelTags": [
+      "intermediate",
+      "upper-intermediate"
+    ],
+    "styleTags": [
+      "video"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.businessenglishpod.com/",
+    "linkIos": "https://apps.apple.com/app/business-english-by-bep/id568878613",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.business.english.pod.droid"
+  },
+  {
+    "id": "grammarly",
+    "name": "Grammarly",
+    "type": "general",
+    "category": "문법교정",
+    "desc": "영어 문법과 작문을 교정해주는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 2만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.grammarly.com/",
+    "linkIos": "https://apps.apple.com/app/grammarly/id1158877342",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.grammarly.android.keyboard"
+  },
+  {
+    "id": "hellochinese",
+    "name": "HelloChinese (어린이용)",
+    "type": "general",
+    "category": "어린이",
+    "desc": "어린이를 위한 재미있는 영어 학습 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 1.5만 원)",
+    "goalTags": [
+      "kids"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "game"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.hellochinese.cc/",
+    "linkIos": "https://apps.apple.com/app/starfall-abcs/id430022987",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.hellochinese"
+  },
+  {
+    "id": "magoosh",
+    "name": "Magoosh",
+    "type": "general",
+    "category": "시험대비",
+    "desc": "TOEFL, IELTS 등 시험 대비 단어 학습 앱입니다.",
+    "priceText": "💰 앱 무료 (강의 20~30만 원대)",
+    "goalTags": ["exam-toefl", "exam-ielts"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://magoosh.com/",
+    "linkIos": "https://apps.apple.com/us/app/gre-vocabulary-flashcards/id672962658",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.magoosh.flashcards.gre"
+  },
+  {
+    "id": "englishcentral",
+    "name": "EnglishCentral",
+    "type": "general",
+    "category": "영상",
+    "desc": "영상으로 스피킹과 발음을 연습할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 2만 원)",
+    "goalTags": [
+      "media"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "video"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.englishcentral.com/",
+    "linkIos": "https://apps.apple.com/us/app/englishcentral-learn-english/id927987414",
+    "linkAndroid": "https://play.google.com/store/search?q=EnglishCentral&c=apps"
+  },
+  {
+    "id": "app",
+    "name": "말해보카",
+    "type": "general",
+    "category": "단어암기",
+    "desc": "말하면서 단어를 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar",
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://epop.ai/ko",
+    "linkIos": "https://apps.apple.com/us/app/epop-learn-real-life-english/id1460766549",
+    "linkAndroid": "https://play.google.com/store/search?q=%EB%A7%90%ED%95%B4%EB%B3%B4%EC%B9%B4&c=apps"
+  },
+  {
+    "id": "wordbit-english",
+    "name": "WordBit English",
+    "type": "general",
+    "category": "",
+    "desc": "에 초점을 둔 영어 학습 앱입니다.",
+    "priceText": "가격 정보는 추후 업데이트 예정입니다.",
+    "goalTags": [
+      "basic"
+    ],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar"
+    ],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://wordbit.net/",
+    "linkIos": "https://apps.apple.com/us/app/wordbit-word-of-the-day/id6737268753",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=net.wordbit.enkr"
+  },
+  {
+    "id": "app",
+    "name": "해커스 보카",
+    "type": "general",
+    "category": "단어암기",
+    "desc": "말하면서 단어를 암기할 수 있는 앱입니다.",
+    "priceText": "💰 무료 (프리미엄 월 약 1만 원)",
+    "goalTags": [
+      "basic"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "vocab-grammar",
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://champ.hackers.com/?c=event&evt_code=45232423",
+    "linkIos": "https://apps.apple.com/us/app/%ED%95%B4%EC%BB%A4%EC%8A%A4%EB%B3%B4%EC%B9%B4-%ED%86%A0%ED%94%8C-%EC%95%84%EC%9D%B4%EC%97%98%EC%B8%A0-sat%EB%8B%A8%EC%96%B4-%ED%8E%B8%EC%9E%85-%ED%8A%B9%EB%AA%A9%EA%B3%A0-%EA%B3%B5%EB%AC%B4%EC%9B%90/id6443891707",
+    "linkAndroid": "https://play.google.com/store/apps/details?id=com.hackers.toeflvoca"
+  },
+  {
+    "id": "preply",
+    "name": "Preply",
+    "type": "general",
+    "category": "튜터링",
+    "desc": "전문 튜터와 1:1 수업을 할 수 있는 플랫폼입니다.",
+    "priceText": "💰 60분 수업 약 2~4만 원대",
+    "goalTags": ["conversation"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "short",
+      "medium",
+      "long"
+    ],
+    "motivationTags": [
+      "self-paced",
+      "exam-focused"
+    ],
+    "linkWeb": "https://preply.com/ko/",
+    "linkIos": "https://apps.apple.com/us/app/preply-language-learning-app/id1352790442",
+    "linkAndroid": "https://play.google.com/store/search?q=Preply&c=apps"
+  },
+  {
+    "id": "italki",
+    "name": "italki",
+    "type": "general",
+    "category": "튜터링",
+    "desc": "다양한 튜터와 온라인 수업을 예약할 수 있는 앱입니다.",
+    "priceText": "💰 60분 수업 약 1.5~3만 원대",
+    "goalTags": ["conversation"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.italki.com/ko",
+    "linkIos": "https://apps.apple.com/us/app/italki-language-learning/id1140000003",
+    "linkAndroid": "https://play.google.com/store/search?q=italki&c=apps"
+  },
+  {
+    "id": "amazingtalker",
+    "name": "AmazingTalker",
+    "type": "general",
+    "category": "튜터링",
+    "desc": "아시아 기반 튜터링 플랫폼입니다.",
+    "priceText": "💰 25분 수업 약 1.5만 원대",
+    "goalTags": ["conversation"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.amazingtalker.co.kr/",
+    "linkIos": "https://apps.apple.com/us/app/amazingtalker-learn-languages/id1503450866",
+    "linkAndroid": "https://play.google.com/store/search?q=AmazingTalker&c=apps"
+  },
+  {
+    "id": "cambly-kids",
+    "name": "Cambly Kids",
+    "type": "general",
+    "category": "어린이",
+    "desc": "어린이를 위한 원어민 튜터 영어 수업 앱입니다.",
+    "priceText": "💰 주 5회 30분 월 약 15만 원",
+    "goalTags": ["kids"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.cambly.com/kids?lang=en",
+    "linkIos": "https://apps.apple.com/us/app/cambly-kids-english-learning/id1454321866",
+    "linkAndroid": "https://play.google.com/store/search?q=Cambly%20Kids&c=apps"
+  },
+  {
+    "id": "ef-english-live",
+    "name": "EF English Live",
+    "type": "general",
+    "category": "온라인",
+    "desc": "EF의 온라인 영어 학습 플랫폼입니다.",
+    "priceText": "💰 월 약 10만 원대 구독형",
+    "goalTags": ["conversation", "business"],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://englishlive.ef.com/",
+    "linkIos": "https://apps.apple.com/us/app/ef-english-live/id961304373",
+    "linkAndroid": "https://play.google.com/store/search?q=EF%20English%20Live&c=apps"
+  },
+  {
+    "id": "open-english",
+    "name": "Open English",
+    "type": "general",
+    "category": "온라인",
+    "desc": "라이브 수업과 그룹 클래스를 제공하는 플랫폼입니다.",
+    "priceText": "💰 월 약 8만 원대 구독형",
+    "goalTags": [
+      "conversation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "tutor"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.openenglish.com/",
+    "linkIos": "https://apps.apple.com/us/iphone/search?term=Open%20English",
+    "linkAndroid": "https://play.google.com/store/search?q=Open%20English&c=apps"
+  },
+  {
+    "id": "speeko",
+    "name": "Speeko",
+    "type": "general",
+    "category": "프레젠테이션",
+    "desc": "프레젠테이션과 발표 스킬을 향상시킬 수 있는 앱입니다.",
+    "priceText": "💰 무료 (Premium 월 약 1.5만 원)",
+    "goalTags": [
+      "pronunciation"
+],
+    "levelTags": [
+      "beginner"
+    ],
+    "styleTags": [
+      "speaking"
+],
+    "budget": "any",
+    "timeTags": [
+      "micro",
+      "short",
+      "medium"
+    ],
+    "motivationTags": [
+      "self-paced"
+    ],
+    "linkWeb": "https://www.speeko.co/",
+    "linkIos": "https://apps.apple.com/us/app/speeko-ai-for-public-speaking/id1071468459",
+    "linkAndroid": "https://play.google.com/store/search?q=Speeko&c=apps"
+  }
+];
+
+  const steps = document.querySelectorAll(".step");
+  const stepText = document.getElementById("stepText");
+  const progressFill = document.getElementById("progressFill");
+  const wizardEl = document.getElementById("wizard");
+  const resultsSection = document.getElementById("resultsSection");
+  const topResultsGrid = document.getElementById("topResultsGrid");
+  const candidateResultsGrid = document.getElementById("candidateResultsGrid");
+  const selectionSummary = document.getElementById("selectionSummary");
+  const backToWizardBtn = document.getElementById("backToWizardBtn");
+  const candidateBlock = document.getElementById("candidateBlock");
+
+  let currentStepIndex = 0;
+
+  function updateStepUI() {
+    steps.forEach((step, idx) => {
+      step.classList.toggle("active", idx === currentStepIndex);
+    });
+    const totalSteps = steps.length;
+    stepText.textContent = `Step ${currentStepIndex + 1} / ${totalSteps}`;
+    const percent = ((currentStepIndex + 1) / totalSteps) * 100;
+    progressFill.style.width = percent + "%";
+  }
+
+  function handleOptionClick(btn) {
+    const multi = btn.dataset.multi === "true";
+    const group = btn.dataset.group;
+    const value = btn.dataset.value;
+
+    // Step2: 시험 대비 없음 전용 처리
+    if (group === "exam") {
+      const noneBtn = document.querySelector('.option[data-group="exam"][data-value="none"]');
+      const isNone = value === "none";
+
+      if (isNone) {
+        const isSelected = btn.classList.contains("selected");
+        if (isSelected) {
+          // 이미 선택된 상태에서 다시 누르면 해제
+          btn.classList.remove("selected");
+        } else {
+          // 다른 시험들 모두 해제하고 '시험 대비 없음'만 선택
+          document.querySelectorAll('.option[data-group="exam"]').forEach((el) => {
+            el.classList.remove("selected");
+          });
+          btn.classList.add("selected");
+        }
+        return;
+      } else {
+        // 다른 시험 선택 시 '시험 대비 없음' 해제
+        if (noneBtn) {
+          noneBtn.classList.remove("selected");
+        }
+        // 시험들은 복수 선택 가능
+        btn.classList.toggle("selected");
+        return;
+      }
+    }
+
+    if (!multi) {
+      const groupButtons = document.querySelectorAll(`.option[data-group="${group}"]`);
+      groupButtons.forEach((b) => {
+        if (b !== btn) b.classList.remove("selected");
+      });
+      btn.classList.toggle("selected");
+    } else {
+      btn.classList.toggle("selected");
+    }
+  }
+
+  function validateCurrentStep() {
+    const activeStep = steps[currentStepIndex];
+    const selected = activeStep.querySelectorAll(".option.selected");
+    if (!selected.length) {
+      alert("하나 이상 선택해 주세요.");
+      return false;
+    }
+    return true;
+  }
+
+  function collectAnswers() {
+    const answers = {
+      goals: [],
+      exams: [],
+      level: null,
+      styles: [],
+      budget: null,
+      time: null,
+      motivations: [],
+      speakingAnxiety: null,
+      pattern: null,
+      motivationFactors: []
+    };
+
+    document.querySelectorAll('.option.selected[data-group="goal"]').forEach((btn) => {
+      answers.goals.push(btn.dataset.value);
+    });
+
+    document.querySelectorAll('.option.selected[data-group="exam"]').forEach((btn) => {
+      answers.exams.push(btn.dataset.value);
+    });
+
+    const levelBtn = document.querySelector('.option.selected[data-group="level"]');
+    if (levelBtn) answers.level = levelBtn.dataset.value;
+
+    document.querySelectorAll('.option.selected[data-group="style"]').forEach((btn) => {
+      answers.styles.push(btn.dataset.value);
+    });
+
+    const budgetBtn = document.querySelector('.option.selected[data-group="budget"]');
+    if (budgetBtn) answers.budget = budgetBtn.dataset.value;
+
+    const timeBtn = document.querySelector('.option.selected[data-group="time"]');
+    if (timeBtn) answers.time = timeBtn.dataset.value;
+
+    document.querySelectorAll('.option.selected[data-group="motivation"]').forEach((btn) => {
+      answers.motivations.push(btn.dataset.value);
+    });
+
+    const speakingAnxietyBtn = document.querySelector('.option.selected[data-group="speaking-anxiety"]');
+    if (speakingAnxietyBtn) answers.speakingAnxiety = speakingAnxietyBtn.dataset.value;
+
+    const patternBtn = document.querySelector('.option.selected[data-group="pattern"]');
+    if (patternBtn) answers.pattern = patternBtn.dataset.value;
+
+    document.querySelectorAll('.option.selected[data-group="motivation-factor"]').forEach((btn) => {
+      answers.motivationFactors.push(btn.dataset.value);
+    });
+
+    return answers;
+  }
+
+  function scoreApp(app, answers) {
+    let score = 0;
+
+    const wantsExam = (answers.exams || []).some((e) => e.startsWith("exam-"));
+    const noExam = (answers.exams || []).includes("none");
+
+    if (answers.goals && answers.goals.length) {
+      app.goalTags.forEach((tag) => {
+        if (answers.goals.includes(tag)) {
+          score += 6;
+        }
+      });
+    }
+
+    if (answers.exams && answers.exams.length) {
+      const examTags = ["exam-toeic", "exam-opic", "exam-toefl", "exam-ielts", "exam-teps", "exam-others"];
+      examTags.forEach((examTag) => {
+        if (answers.exams.includes(examTag) && app.goalTags.includes(examTag)) {
+          score += 8;
+        }
+      });
+
+      if (wantsExam && app.type === "general") {
+        score -= 2;
+      }
+      if (noExam && app.type === "exam") {
+        score -= 3;
+      }
+    }
+
+    if (answers.level && app.levelTags.includes(answers.level)) {
+      score += 4;
+    }
+
+    if (answers.styles && answers.styles.length) {
+      app.styleTags.forEach((tag) => {
+        if (answers.styles.includes(tag)) {
+          score += 3;
+        }
+      });
+    }
+
+    if (answers.budget) {
+      if (answers.budget === "any") {
+        score += 2;
+      } else if (answers.budget === app.budget) {
+        score += 4;
+      } else {
+        const nearBudget = {
+          free: ["under-10k"],
+          "under-10k": ["free", "10-30k"],
+          "10-30k": ["under-10k", "30-70k"],
+          "30-70k": ["10-30k", "70k-plus"],
+          "70k-plus": ["30-70k"]
+        };
+        if (nearBudget[answers.budget] && nearBudget[answers.budget].includes(app.budget)) {
+          score += 2;
+        } else {
+          score -= 1;
+        }
+      }
+    }
+
+    if (answers.time) {
+      if (app.timeTags && app.timeTags.includes(answers.time)) {
+        score += 3;
+      }
+    }
+
+    if (answers.motivations && answers.motivations.length) {
+      app.motivationTags && app.motivationTags.forEach((tag) => {
+        if (answers.motivations.includes(tag)) {
+          score += 2;
+        }
+      });
+    }
+
+    if (answers.speakingAnxiety) {
+      if (answers.speakingAnxiety === 'no-fear' || answers.speakingAnxiety === 'little-fear') {
+        if (app.styleTags.includes('tutor') || app.styleTags.includes('exchange')) {
+          score += 4;
+        }
+      } else if (answers.speakingAnxiety === 'much-fear') {
+        if (app.styleTags.includes('speaking') && app.id !== 'ringle' && app.id !== 'hellotalk') {
+          score += 5;
+        }
+        if (app.styleTags.includes('tutor') || app.styleTags.includes('exchange')) {
           score -= 3;
         }
-      }
-
-      if (answers.level && app.levelTags.includes(answers.level)) {
-        score += 4;
-      }
-
-      if (answers.styles && answers.styles.length) {
-        let styleHits = 0;
-        app.styleTags.forEach((tag) => {
-          if (answers.styles.includes(tag)) {
-            styleHits++;
-            score += 3;
-          }
-        });
-      }
-
-      if (answers.budget) {
-        if (answers.budget === "any") {
-          score += 2;
-        } else if (answers.budget === app.budget) {
+      } else if (answers.speakingAnxiety === 'avoid') {
+        if (app.styleTags.includes('video') || app.styleTags.includes('vocab-grammar')) {
           score += 4;
-        } else {
-          const nearBudget = {
-            free: ["under-10k"],
-            "under-10k": ["free", "10-30k"],
-            "10-30k": ["under-10k", "30-70k"],
-            "30-70k": ["10-30k", "70k-plus"],
-            "70k-plus": ["30-70k"]
-          };
-          if (nearBudget[answers.budget] && nearBudget[answers.budget].includes(app.budget)) {
-            score += 2;
-          } else {
-            score -= 1;
-          }
+        }
+        if (app.styleTags.includes('speaking') || app.styleTags.includes('tutor')) {
+          score -= 4;
         }
       }
+    }
 
-      if (answers.time) {
-        if (app.timeTags && app.timeTags.includes(answers.time)) {
+    if (answers.pattern) {
+      if (answers.pattern === 'daily-short') {
+        if (app.timeTags && (app.timeTags.includes('micro') || app.timeTags.includes('short'))) {
+          score += 4;
+        }
+        if (['duolingo', 'cake', 'malhaevoca', 'memrise', 'quizlet'].includes(app.id)) {
+          score += 3;
+        }
+      } else if (answers.pattern === 'regular-focus' || answers.pattern === 'weekend-intensive') {
+        if (app.timeTags && (app.timeTags.includes('medium') || app.timeTags.includes('long'))) {
+          score += 4;
+        }
+        if (['ringle', 'santa', 'tosme', 'toeflready', 'ielts-prep'].includes(app.id)) {
+          score += 3;
+        }
+      } else if (answers.pattern === 'flexible') {
+        if (app.timeTags && app.timeTags.length > 2) {
           score += 3;
         }
       }
-
-      if (answers.motivations && answers.motivations.length) {
-        app.motivationTags && app.motivationTags.forEach((tag) => {
-          if (answers.motivations.includes(tag)) {
-            score += 2;
-          }
-        });
-      }
-
-      // 말하기 두려움에 따른 점수 조정
-      if (answers.speakingAnxiety) {
-        if (answers.speakingAnxiety === 'no-fear' || answers.speakingAnxiety === 'little-fear') {
-          // 실전형 앱 선호
-          if (app.styleTags.includes('tutor') || app.styleTags.includes('exchange')) {
-            score += 4;
-          }
-        } else if (answers.speakingAnxiety === 'much-fear') {
-          // AI 연습 앱 선호
-          if (app.styleTags.includes('speaking') && app.id !== 'ringle' && app.id !== 'hellotalk') {
-            score += 5;
-          }
-          if (app.styleTags.includes('tutor') || app.styleTags.includes('exchange')) {
-            score -= 3;
-          }
-        } else if (answers.speakingAnxiety === 'avoid') {
-          // 읽기/듣기 위주 앱
-          if (app.styleTags.includes('video') || app.styleTags.includes('vocab-grammar')) {
-            score += 4;
-          }
-          if (app.styleTags.includes('speaking') || app.styleTags.includes('tutor')) {
-            score -= 4;
-          }
-        }
-      }
-
-      // 학습 패턴에 따른 점수 조정
-      if (answers.pattern) {
-        if (answers.pattern === 'daily-short') {
-          // 짧은 학습에 적합한 앱
-          if (app.timeTags && (app.timeTags.includes('micro') || app.timeTags.includes('short'))) {
-            score += 4;
-          }
-          if (['duolingo', 'cake', 'malhaevoca'].includes(app.id)) {
-            score += 3;
-          }
-        } else if (answers.pattern === 'regular-focus' || answers.pattern === 'weekend-intensive') {
-          // 집중 학습에 적합한 앱
-          if (app.timeTags && (app.timeTags.includes('medium') || app.timeTags.includes('long'))) {
-            score += 4;
-          }
-          if (['ringle', 'santa', 'tosme'].includes(app.id)) {
-            score += 3;
-          }
-        } else if (answers.pattern === 'flexible') {
-          // 유연한 학습 가능한 앱
-          if (app.timeTags && app.timeTags.length > 2) {
-            score += 3;
-          }
-        }
-      }
-
-      // 동기부여 요소에 따른 점수 조정
-      if (answers.motivationFactors && answers.motivationFactors.length) {
-        if (answers.motivationFactors.includes('streak') || answers.motivationFactors.includes('gamification')) {
-          // 게임화 요소가 강한 앱
-          if (['duolingo', 'cake', 'malhaevoca'].includes(app.id)) {
-            score += 4;
-          }
-        }
-        if (answers.motivationFactors.includes('progress')) {
-          // 통계/분석 기능이 강한 앱
-          if (['santa', 'speak', 'elsa'].includes(app.id)) {
-            score += 4;
-          }
-        }
-        if (answers.motivationFactors.includes('feedback')) {
-          // 피드백이 강한 앱
-          if (app.styleTags.includes('tutor') || ['speak', 'elsa', 'tosme'].includes(app.id)) {
-            score += 4;
-          }
-        }
-        if (answers.motivationFactors.includes('fun')) {
-          // 재미 요소가 강한 앱
-          if (app.styleTags.includes('game') || app.styleTags.includes('video')) {
-            score += 3;
-          }
-        }
-      }
-
-      return score;
     }
 
-    function humanizeSelections(answers) {
-      const parts = [];
-      
-      if (answers.goals && answers.goals.length) {
-        parts.push("목적: " + answers.goals.join(", "));
+    if (answers.motivationFactors && answers.motivationFactors.length) {
+      if (answers.motivationFactors.includes('streak') || answers.motivationFactors.includes('gamification')) {
+        if (['duolingo', 'cake', 'malhaevoca', 'memrise'].includes(app.id) || app.styleTags.includes('game')) {
+          score += 4;
+        }
       }
-      if (answers.exams && answers.exams.length) {
-        parts.push("시험: " + answers.exams.join(", "));
+      if (answers.motivationFactors.includes('progress')) {
+        if (['santa', 'speak', 'elsa'].includes(app.id)) {
+          score += 4;
+        }
       }
-      if (answers.level) {
-        parts.push("수준: " + answers.level);
+      if (answers.motivationFactors.includes('feedback')) {
+        if (app.styleTags.includes('tutor') || ['speak', 'elsa', 'tosme', 'ringle'].includes(app.id)) {
+          score += 4;
+        }
       }
-      if (answers.budget) {
-        parts.push("예산: " + answers.budget);
+      if (answers.motivationFactors.includes('fun')) {
+        if (app.styleTags.includes('game') || app.styleTags.includes('video')) {
+          score += 3;
+        }
       }
-
-      return parts.join(" / ");
     }
 
-    function createAppCard(app, highlight = false) {
-      const card = document.createElement("article");
-      card.className = "app-card";
-      if (highlight) card.classList.add("highlight");
+    return score;
+  }
 
-      card.innerHTML = `
-        <div class="app-header">
-          <div>
-            <div class="app-name">${app.name}</div>
-            <div class="score-pill">적합도: ${app.score}점</div>
+  function humanizeSelections(answers) {
+    const parts = [];
+
+    const goalLabel = {
+      conversation: "일상 회화",
+      travel: "여행 영어",
+      business: "비즈니스/업무",
+      pronunciation: "발음·스피킹",
+      basic: "기초 문법·어휘",
+      media: "영어 뉴스·영상",
+      kids: "어린이 영어"
+    };
+    const examLabel = {
+      "none": "시험 대비 없음",
+      "exam-toeic": "TOEIC",
+      "exam-opic": "TOEIC Speaking / OPIc",
+      "exam-toefl": "TOEFL",
+      "exam-ielts": "IELTS",
+      "exam-teps": "TEPS",
+      "exam-others": "유학/입시 시험"
+    };
+    const levelLabel = {
+      "beginner": "완전 초보",
+      "low-intermediate": "초중급",
+      "intermediate": "중급",
+      "upper-intermediate": "중고급",
+      "advanced": "고급"
+    };
+    const budgetLabel = {
+      "free": "무료 위주",
+      "under-10k": "월 1만 원 이하",
+      "10-30k": "월 1~3만 원",
+      "30-70k": "월 3~7만 원",
+      "70k-plus": "월 7만 원 이상",
+      "any": "예산 상관 없음"
+    };
+    const timeLabel = {
+      "micro": "5~10분",
+      "short": "10~20분",
+      "medium": "30분~1시간",
+      "long": "1~2시간",
+      "intense": "2시간 이상"
+    };
+    const patternLabel = {
+      "daily-short": "매일 짧게",
+      "regular-focus": "주 3~4회 집중",
+      "weekend-intensive": "주말 몰아서",
+      "flexible": "틈나는 대로 유연하게"
+    };
+
+    if (answers.goals && answers.goals.length) {
+      const txt = answers.goals
+        .map(g => goalLabel[g] || g)
+        .join(", ");
+      parts.push("학습 목적: " + txt);
+    }
+    if (answers.exams && answers.exams.length) {
+      const txt = answers.exams
+        .map(e => examLabel[e] || e)
+        .join(", ");
+      parts.push("시험 준비: " + txt);
+    }
+    if (answers.level) {
+      parts.push("현재 수준: " + (levelLabel[answers.level] || answers.level));
+    }
+    if (answers.budget) {
+      parts.push("월 예산: " + (budgetLabel[answers.budget] || answers.budget));
+    }
+    if (answers.time) {
+      parts.push("하루 학습 시간: " + (timeLabel[answers.time] || answers.time));
+    }
+    if (answers.pattern) {
+      parts.push("선호 학습 패턴: " + (patternLabel[answers.pattern] || answers.pattern));
+    }
+
+    return parts.join(" / ");
+  }
+
+  function generateReasonSummary(answers) {
+    const goalLabel = {
+      conversation: "일상 회화",
+      travel: "여행 영어",
+      business: "비즈니스/업무",
+      pronunciation: "발음·스피킹",
+      basic: "기초 문법·어휘",
+      media: "영어 뉴스·영상",
+      kids: "어린이 영어"
+    };
+    const styleLabel = {
+      pattern: "패턴 학습",
+      video: "영상 기반",
+      textbook: "교재·문법 중심",
+      game: "게임형 학습",
+      podcast: "오디오·팟캐스트"
+    };
+    const timeLabel = {
+      short: "하루 10~20분 가볍게",
+      medium: "하루 30분 전후",
+      intense: "집중적으로 1시간 이상"
+    };
+    const motivationLabel = {
+      "need-fun": "재미 요소가 중요하고",
+      "need-result": "결과와 성취감이 중요하고",
+      "need-habit": "습관 형성이 중요하고"
+    };
+    const patternLabel = {
+      "daily-short": "매일 짧게 자주 공부하는",
+      "regular-focus": "주 3~4회 집중해서 공부하는",
+      "weekend-intensive": "주말에 몰아서 학습하는",
+      "flexible": "상황에 따라 유연하게 공부하는"
+    };
+
+    const sentences = [];
+
+    if (answers.goals && answers.goals.length) {
+      const goals = answers.goals.map((g) => goalLabel[g]).filter(Boolean);
+      if (goals.length) {
+        sentences.push(`학습 목적은 <strong>${goals.join(", ")}</strong> 쪽에 가깝습니다.`);
+      }
+    }
+
+    if (answers.styles && answers.styles.length) {
+      const styles = answers.styles.map((s) => styleLabel[s]).filter(Boolean);
+      if (styles.length) {
+        sentences.push(`선호하는 스타일은 <strong>${styles.join(", ")}</strong> 유형입니다.`);
+      }
+    }
+
+    if (answers.time && timeLabel[answers.time]) {
+      sentences.push(`<strong>${timeLabel[answers.time]}</strong> 학습을 선호하는 편입니다.`);
+    }
+
+    if (answers.motivationFactors && answers.motivationFactors.length) {
+      const motis = answers.motivationFactors.map((m) => motivationLabel[m]).filter(Boolean);
+      if (motis.length) {
+        sentences.push(`${motis.join(" ")} 경향이 있습니다.`);
+      }
+    }
+
+    if (answers.pattern && patternLabel[answers.pattern]) {
+      sentences.push(`학습 패턴은 <strong>${patternLabel[answers.pattern]}</strong> 스타일입니다.`);
+    }
+
+    if (!sentences.length) return "";
+
+    return `당신은 ${sentences.join(" ")} 이 기준을 바탕으로 현재 조건에 가장 잘 맞는 앱들을 우선 추천했습니다.`;
+  }
+
+  function createAppCard(app, highlight = false, answers) {
+    // 태그 한글 변환을 위한 매핑
+    const goalLabel = {
+      conversation: "일상 회화",
+      travel: "여행 영어",
+      business: "비즈니스/업무",
+      pronunciation: "발음·스피킹",
+      basic: "기초 문법·어휘",
+      media: "영어 뉴스·영상",
+      kids: "어린이 영어"
+    };
+    const examLabel = {
+      "none": "시험 대비 없음",
+      "exam-toeic": "TOEIC",
+      "exam-opic": "TOEIC Speaking / OPIc",
+      "exam-toefl": "TOEFL",
+      "exam-ielts": "IELTS",
+      "exam-teps": "TEPS",
+      "exam-others": "유학/입시 시험"
+    };
+    const levelLabel = {
+      "beginner": "완전 초보",
+      "low-intermediate": "초중급",
+      "intermediate": "중급",
+      "upper-intermediate": "중고급",
+      "advanced": "고급"
+    };
+    const styleLabel = {
+      "game": "게임형",
+      "video": "영상 학습",
+      "tutor": "튜터 연결",
+      "speaking": "스피킹 위주",
+      "vocab-grammar": "단어/문법",
+      "exchange": "언어교환",
+      "shadowing": "쉐도잉",
+      "podcast": "팟캐스트",
+      "reading": "리딩/텍스트"
+    };
+
+    const card = document.createElement("article");
+    card.className = "app-card";
+    if (highlight) card.classList.add("highlight");
+
+    let gradeText = "";
+    if (typeof app.score === "number") {
+      if (app.score >= 85) gradeText = "매우 잘 맞아요";
+      else if (app.score >= 65) gradeText = "무난하게 잘 맞아요";
+      else gradeText = "보조용으로 활용해 보세요";
+    }
+
+    const scoreLine = typeof app.score === "number"
+      ? `적합도: ${app.score}점 / 100`
+      : "적합도: 조건 기반 추천";
+
+    card.innerHTML += `
+      <div class="app-header">
+        <div>
+          <div class="app-name">${app.name}</div>
+          <div class="score-pill">
+            ${scoreLine}
+            ${gradeText ? `<span class="score-grade">${gradeText}</span>` : ""}
           </div>
-          <div class="app-badge">${app.category}</div>
         </div>
-        <p class="app-desc">${app.desc}</p>
-        <p class="app-price">💰 ${app.priceText}</p>
-      `;
+        <div class="app-badge">${app.category}</div>
+      </div>
+      <p class="app-desc">${app.desc}</p>
+      <p class="app-price">${app.priceText}</p>
+    `;
 
-      const tagsDiv = document.createElement("div");
-      tagsDiv.className = "app-tags";
+    const tagsDiv = document.createElement("div");
+    tagsDiv.className = "app-tags";
 
-      const typeTag = document.createElement("span");
-      typeTag.className = "app-tag";
-      typeTag.textContent = app.type === "exam" ? "시험용" : "일반";
-      tagsDiv.appendChild(typeTag);
+    const typeTag = document.createElement("span");
+    typeTag.className = "app-tag";
+    typeTag.textContent = app.type === "exam" ? "시험용" : "일반";
+    tagsDiv.appendChild(typeTag);
 
-      app.goalTags.slice(0, 3).forEach((tag) => {
-        const span = document.createElement("span");
-        span.className = "app-tag";
-        span.textContent = tag;
-        tagsDiv.appendChild(span);
+    const allTags = [];
+
+    // goalTags 처리
+    if (app.goalTags && app.goalTags.length) {
+      app.goalTags.forEach((tag) => {
+        if (tag.startsWith("exam-")) {
+          const koreanTag = examLabel[tag];
+          if (koreanTag && koreanTag !== "시험 대비 없음") {
+            allTags.push(koreanTag);
+          }
+        } else {
+          const koreanTag = goalLabel[tag];
+          if (koreanTag) {
+            allTags.push(koreanTag);
+          }
+        }
       });
+    }
 
-      card.appendChild(tagsDiv);
+    // styleTags 처리
+    if (app.styleTags && app.styleTags.length) {
+      app.styleTags.slice(0, 2).forEach((tag) => {
+        const koreanTag = styleLabel[tag];
+        if (koreanTag && !allTags.includes(koreanTag)) {
+          allTags.push(koreanTag);
+        }
+      });
+    }
 
-      const linksDiv = document.createElement("div");
-      linksDiv.className = "app-links";
+    // 최대 4개까지 태그 표시
+    allTags.slice(0, 4).forEach((tagText) => {
+      const span = document.createElement("span");
+      span.className = "app-tag";
+      span.textContent = tagText;
+      tagsDiv.appendChild(span);
+    });
 
-      if (app.linkWeb) {
-        const a = document.createElement("a");
-        a.href = app.linkWeb;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        a.className = "app-link-btn primary-link";
-        a.textContent = "공식 사이트";
-        linksDiv.appendChild(a);
-      }
-      if (app.linkIos) {
-        const a = document.createElement("a");
-        a.href = app.linkIos;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        a.className = "app-link-btn";
-        a.textContent = "iOS";
-        linksDiv.appendChild(a);
-      }
-      if (app.linkAndroid) {
-        const a = document.createElement("a");
-        a.href = app.linkAndroid;
-        a.target = "_blank";
-        a.rel = "noopener noreferrer";
-        a.className = "app-link-btn";
-        a.textContent = "Android";
-        linksDiv.appendChild(a);
-      }
+    card.appendChild(tagsDiv);
 
-      if (linksDiv.children.length > 0) {
-        card.appendChild(linksDiv);
+    // ==== 이 앱이 잘 맞는 이유 / 점수 올리는 팁 ====
+    if (answers) {
+      const reasons = [];
+      const tips = [];
+
+      // 1) 학습 목적 / 시험
+      if (answers.goals && answers.goals.length && app.goalTags) {
+        const matchedGoals = app.goalTags.filter(tag => answers.goals.includes(tag));
+        if (matchedGoals.length) {
+          const txt = matchedGoals.map(g => goalLabel[g] || examLabel[g] || g).join(", ");
+          reasons.push(`학습 목적( ${txt} )과 잘 맞는 앱이에요.`);
+        }
       }
 
+      if (answers.exams && answers.exams.length) {
+        const matchedExams = (answers.exams || []).filter(e => app.goalTags && app.goalTags.includes(e));
+        if (matchedExams.length) {
+          const txt = matchedExams.map(e => examLabel[e] || e).join(", ");
+          reasons.push(`${txt} 대비에 특화된 구성이에요.`);
+        } else if (answers.exams.some(e => e.startsWith("exam-")) && app.type === "general") {
+          tips.push("정식 시험 대비는 전용 앱과 함께 쓰고, 이 앱은 회화·기초 실력 보완용으로 병행하면 좋아요.");
+        }
+      }
+
+      // 2) 수준
+      if (answers.level && app.levelTags && app.levelTags.includes(answers.level)) {
+        reasons.push(`현재 수준( ${levelLabel[answers.level] || answers.level} )에 맞는 난이도예요.`);
+      }
+
+      // 3) 스타일
+      if (answers.styles && answers.styles.length && app.styleTags) {
+        const matchedStyles = app.styleTags.filter(tag => answers.styles.includes(tag));
+        if (matchedStyles.length) {
+          const txt = matchedStyles.map(s => styleLabel[s] || s).join(", ");
+          reasons.push(`선호하는 학습 방식( ${txt} )으로 공부할 수 있어요.`);
+        }
+      }
+
+      // 4) 예산
+      if (answers.budget) {
+        if (answers.budget === "any" || answers.budget === app.budget) {
+          reasons.push("설정한 예산 범위 안에서 이용 가능한 앱이에요.");
+        } else if (app.budget && app.budget !== "any") {
+          tips.push("유료 플랜이 있는 앱이라, 예산을 조금만 조정하면 더 많은 기능을 활용할 수 있어요.");
+        }
+      }
+
+      // 5) 시간/패턴
+      if (answers.time && app.timeTags && app.timeTags.includes(answers.time)) {
+        reasons.push("지금 설정한 하루 학습 시간과 잘 맞는 분량이에요.");
+      }
+
+      if (answers.pattern) {
+        if (answers.pattern === "daily-short" && app.timeTags &&
+            (app.timeTags.includes("micro") || app.timeTags.includes("short"))) {
+          reasons.push("매일 짧게 공부하기 좋은 구조예요.");
+        }
+        if ((answers.pattern === "regular-focus" || answers.pattern === "weekend-intensive") &&
+            app.timeTags && (app.timeTags.includes("medium") || app.timeTags.includes("long"))) {
+          reasons.push("집중해서 몰입 학습하기 좋은 앱이에요.");
+        }
+      }
+
+      // 6) 말하기 부담감
+      if (answers.speakingAnxiety) {
+        if (answers.speakingAnxiety === "avoid" &&
+            app.styleTags && (app.styleTags.includes("speaking") || app.styleTags.includes("tutor"))) {
+          tips.push("말하기가 아직 부담스럽다면, 이 앱은 리딩·리스닝으로 먼저 쓰고 나중에 스피킹 기능을 열어보는 걸 추천드려요.");
+        }
+      }
+
+      if (reasons.length) {
+        const ul = document.createElement("ul");
+        ul.className = "app-reasons";
+        reasons.slice(0, 3).forEach((r) => {
+          const li = document.createElement("li");
+          li.textContent = r;
+          ul.appendChild(li);
+        });
+        card.appendChild(ul);
+      }
+
+      if (tips.length) {
+        const p = document.createElement("p");
+        p.className = "app-tip";
+        p.textContent = "적합도 점수를 더 높이려면: " + tips[0];
+        card.appendChild(p);
+      }
+    }
+
+    const hasWeb = !!app.linkWeb;
+    const hasIos = !!app.linkIos;
+    const hasAndroid = !!app.linkAndroid;
+
+    if (!hasWeb && !hasIos && !hasAndroid) {
+      const pending = document.createElement("div");
+      pending.className = "link-pending";
+      pending.textContent = "공식 웹사이트/스토어 링크는 현재 업데이트 예정입니다.";
+      card.appendChild(pending);
       return card;
     }
 
-    function showResults() {
-      const answers = collectAnswers();
+    const linksDiv = document.createElement("div");
+    linksDiv.className = "app-links";
 
-      const ranked = apps
-        .map((app) => {
-          const score = scoreApp(app, answers);
-          return { ...app, score };
-        })
-        .filter((a) => a.score > 0)
-        .sort((a, b) => b.score - a.score);
+    if (hasWeb) {
+      const a = document.createElement("a");
+      a.href = app.linkWeb;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = "app-link-btn primary-link";
+      a.textContent = "공식 사이트";
+      linksDiv.appendChild(a);
+    }
+    if (hasIos) {
+      const a = document.createElement("a");
+      a.href = app.linkIos;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = "app-link-btn store";
+      a.textContent = "iOS";
+      linksDiv.appendChild(a);
+    }
+    if (hasAndroid) {
+      const a = document.createElement("a");
+      a.href = app.linkAndroid;
+      a.target = "_blank";
+      a.rel = "noopener noreferrer";
+      a.className = "app-link-btn store";
+      a.textContent = "Android";
+      linksDiv.appendChild(a);
+    }
 
-      selectionSummary.textContent = humanizeSelections(answers) || "선택 정보가 없습니다.";
+    card.appendChild(linksDiv);
+    return card;
+  }
 
-      topResultsGrid.innerHTML = "";
-      candidateResultsGrid.innerHTML = "";
 
-      if (!ranked.length) {
-        const p = document.createElement("p");
-        p.className = "no-result";
-        p.textContent = "조건에 맞는 앱을 찾지 못했습니다. 선택을 조금 넓게 바꿔보세요.";
-        topResultsGrid.appendChild(p);
-        candidateBlock.style.display = "none";
-      } else {
-        const topThree = ranked.slice(0, 3);
-        const candidates = ranked.slice(3, 8);
 
-        topThree.forEach((app) => {
-          const card = createAppCard(app, true);
-          topResultsGrid.appendChild(card);
-        });
+  function showResults() {
+    const answers = collectAnswers();
 
-        if (candidates.length) {
-          candidateBlock.style.display = "block";
-          candidates.forEach((app) => {
-            const card = createAppCard(app, false);
-            candidateResultsGrid.appendChild(card);
-          });
-        } else {
-          candidateBlock.style.display = "none";
-        }
-      }
+    // 1) 기존 로직으로 원래 점수(rawScore) 계산
+    const scoredApps = apps
+      .map((app) => {
+        const raw = scoreApp(app, answers);
+        return { ...app, rawScore: raw };
+      })
+      .filter((a) => a.rawScore > 0);
+
+    const baseSummary = humanizeSelections(answers) || "선택 정보가 없습니다.";
+    const reasonText = generateReasonSummary(answers);
+
+    if (reasonText) {
+      selectionSummary.innerHTML = `
+        <div class="combined-summary-box">
+          <div class="ai-summary-label">🔎 AI 분석 결과</div>
+          <div class="ai-summary-text">${reasonText}</div>
+          <hr class="combined-separator" />
+          <div class="summary-text">${baseSummary}</div>
+        </div>
+      `;
+    } else {
+      selectionSummary.innerHTML = `
+        <div class="combined-summary-box">
+          <div class="summary-text">${baseSummary}</div>
+        </div>
+      `;
+    }
+
+    topResultsGrid.innerHTML = "";
+    candidateResultsGrid.innerHTML = "";
+
+    if (!scoredApps.length) {
+      const p = document.createElement("p");
+      p.className = "no-result";
+      p.textContent = "조건에 맞는 앱을 찾지 못했습니다. 선택을 조금 넓게 바꿔보세요.";
+      topResultsGrid.appendChild(p);
+      candidateBlock.style.display = "none";
 
       wizardEl.style.display = "none";
       resultsSection.style.display = "block";
+      return;
     }
 
-    document.querySelectorAll(".option").forEach((btn) => {
-      btn.addEventListener("click", () => handleOptionClick(btn));
+    // 2) 가장 높은 rawScore를 100점으로 환산
+    const maxRaw = Math.max(...scoredApps.map((a) => a.rawScore));
+    const ranked = scoredApps
+      .map((app) => {
+        const percent = maxRaw > 0 ? Math.round((app.rawScore / maxRaw) * 100) : 0;
+        return { ...app, score: percent };
+      })
+      .sort((a, b) => b.score - a.score);
+
+    const topThree = ranked.slice(0, 3);
+    updateShareText(topThree);
+    const candidates = ranked.slice(3, 8);
+
+    // 3) 카드 출력 (answers를 같이 넘겨서 이유/팁 생성)
+    topThree.forEach((app) => {
+      const card = createAppCard(app, true, answers);
+      topResultsGrid.appendChild(card);
     });
 
-    document.querySelectorAll(".next-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (!validateCurrentStep()) return;
-        if (currentStepIndex < steps.length - 1) {
-          currentStepIndex++;
-          updateStepUI();
-        }
+    if (candidates.length) {
+      candidateBlock.style.display = "block";
+      candidates.forEach((app) => {
+        const card = createAppCard(app, false, answers);
+        candidateResultsGrid.appendChild(card);
       });
-    });
+    } else {
+      candidateBlock.style.display = "none";
+    }
 
-    document.querySelectorAll(".prev-btn").forEach((btn) => {
-      btn.addEventListener("click", () => {
-        if (currentStepIndex > 0) {
-          currentStepIndex--;
-          updateStepUI();
-        }
-      });
-    });
+    wizardEl.style.display = "none";
+    resultsSection.style.display = "block";
+  }
 
-    const finishBtn = document.querySelector(".finish-btn");
-    finishBtn.addEventListener("click", () => {
+
+document.querySelectorAll(".option").forEach((btn) => {
+    btn.addEventListener("click", () => handleOptionClick(btn));
+  });
+
+  document.querySelectorAll(".next-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
       if (!validateCurrentStep()) return;
-      showResults();
+      if (currentStepIndex < steps.length - 1) {
+        currentStepIndex++;
+        updateStepUI();
+      }
     });
+  });
 
-    backToWizardBtn.addEventListener("click", () => {
-      resultsSection.style.display = "none";
-      wizardEl.style.display = "block";
-      currentStepIndex = 0;
-      updateStepUI();
+  document.querySelectorAll(".prev-btn").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (currentStepIndex > 0) {
+        currentStepIndex--;
+        updateStepUI();
+      }
     });
+  });
 
+  const finishBtn = document.querySelector(".finish-btn");
+  finishBtn.addEventListener("click", () => {
+    if (!validateCurrentStep()) return;
+    showResults();
+  });
+
+  backToWizardBtn.addEventListener("click", () => {
+    resultsSection.style.display = "none";
+    wizardEl.style.display = "block";
+    currentStepIndex = 0;
     updateStepUI();
-  </script>
+  });
+
+  updateStepUI();
+
+let latestShareText = "";
+
+function updateShareText(topThree) {
+  const summary = document.getElementById("selectionSummary");
+  const baseText = summary ? summary.textContent.trim() : "";
+  let lines = [];
+  lines.push("내 영어 학습 앱 추천 결과");
+  if (baseText) {
+    lines.push("");
+    lines.push("선택한 조건: " + baseText);
+  }
+  if (topThree && topThree.length) {
+    lines.push("");
+    lines.push("TOP 3 추천 앱:");
+    topThree.forEach((app, idx) => {
+      lines.push((idx + 1) + ". " + app.name + " - " + (app.category || "영어 학습 앱"));
+    });
+  }
+  latestShareText = lines.join("\n");
+}
+
+document.addEventListener("DOMContentLoaded", () => {
+  // 📸 결과 이미지로 저장
+  const captureBtn = document.getElementById("captureBtn");
+  if (captureBtn) {
+    captureBtn.addEventListener("click", () => {
+      alert("📸 결과를 이미지로 저장하는 방법:\n\n① 스크린샷 기능 사용\n   - Windows: Win + Shift + S\n   - Mac: Cmd + Shift + 4\n\n② 브라우저 저장\n   - 우클릭 > '다른 이름으로 저장'\n   - Ctrl+S (Win) / Cmd+S (Mac)\n\n📌 추천: 스크린샷이 가장 간편합니다!");
+    });
+  }
+
+  // 📋 앱 리스트 복사
+  const copyResultBtn = document.getElementById("copyResultBtn");
+  if (copyResultBtn) {
+    copyResultBtn.addEventListener("click", async () => {
+      // 현재 표시된 앱들의 이름과 설명을 수집
+      const appCards = document.querySelectorAll(".app-card");
+      if (appCards.length === 0) {
+        alert("추천 결과가 없습니다.");
+        return;
+      }
+      
+      let textResult = "🎓 내 영어 학습 앱 추천 \n\n";
+      textResult += "=".repeat(30) + "\n\n";
+      
+      appCards.forEach((card, index) => {
+        const name = card.querySelector(".app-name")?.textContent?.trim() || "";
+        const desc = card.querySelector(".app-desc")?.textContent?.trim() || "";
+        const price = card.querySelector(".app-price")?.textContent?.trim() || "";
+        const badge = card.querySelector(".app-badge")?.textContent?.trim() || "";
+        
+        if (index < 3) {
+          textResult += `🏆 TOP ${index + 1}: ${name}\n`;
+        } else {
+          textResult += `• ${name}\n`;
+        }
+        
+        if (badge) textResult += `   [분류] ${badge}\n`;
+        if (desc) textResult += `   ${desc}\n`;
+        if (price) textResult += `   ${price}\n`;
+        textResult += "\n";
+      });
+      
+      textResult += "=".repeat(30) + "\n";
+      textResult += "📌 나중에 다시 확인하세요!";
+      
+      try {
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          await navigator.clipboard.writeText(textResult);
+          alert("🎉 추천 앱 리스트가 복사되었습니다!\n\n메모장이나 노트에 붙여넣기 하세요.");
+        } else {
+          const textarea = document.createElement("textarea");
+          textarea.value = textResult;
+          document.body.appendChild(textarea);
+          textarea.select();
+          document.execCommand("copy");
+          document.body.removeChild(textarea);
+          alert("🎉 추천 앱 리스트가 복사되었습니다!");
+        }
+      } catch (e) {
+        alert("복사 기능을 사용할 수 없습니다.");
+      }
+    });
+  }
+});
+
+</script>
 </body>
 </html>
