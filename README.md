@@ -16,9 +16,3 @@ AI가 60개 영어 학습 앱 중 지금 나에게 가장 잘 맞는 TOP 3 앱�
 ## 🛠 기술
 - HTML / CSS / JavaScript (Vanilla)
 - GitHub Pages & Cloudflare Pages 배포
-
-## 📂 구조
-```
-english-app-recommender/
-├── index.html
-```
